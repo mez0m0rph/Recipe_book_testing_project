@@ -1,0 +1,15 @@
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/bin/Debug/net10.0/RecipeBook.Application.deps.json
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/bin/Debug/net10.0/RecipeBook.Application.dll
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/bin/Debug/net10.0/RecipeBook.Application.pdb
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/bin/Debug/net10.0/RecipeBook.Domain.dll
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/bin/Debug/net10.0/RecipeBook.Domain.pdb
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/RecipeBook.Application.csproj.AssemblyReference.cache
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/RecipeBook.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/RecipeBook.Application.AssemblyInfoInputs.cache
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/RecipeBook.Application.AssemblyInfo.cs
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/RecipeBook.Application.csproj.CoreCompileInputs.cache
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/RecipeBo.AE80762A.Up2Date
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/RecipeBook.Application.dll
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/refint/RecipeBook.Application.dll
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/RecipeBook.Application.pdb
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Application/obj/Debug/net10.0/ref/RecipeBook.Application.dll

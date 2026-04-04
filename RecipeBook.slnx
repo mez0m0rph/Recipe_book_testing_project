@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="RecipeBook.API/RecipeBook.API.csproj" />
+  <Project Path="RecipeBook.Application/RecipeBook.Application.csproj" />
+  <Project Path="RecipeBook.Domain/RecipeBook.Domain.csproj" />
+  <Project Path="RecipeBook.Infrastructure/RecipeBook.Infrastructure.csproj" />
+  <Project Path="RecipeBook.Tests/RecipeBook.Tests.csproj" />
+  <Project Path="RecipeBook.WebUI/RecipeBook.WebUI.csproj" />
+</Solution>
