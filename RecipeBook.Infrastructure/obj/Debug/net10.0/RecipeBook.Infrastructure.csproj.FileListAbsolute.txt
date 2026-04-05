@@ -1,4 +1,5 @@
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/bin/Debug/net10.0/RecipeBook.Infrastructure.deps.json
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/bin/Debug/net10.0/RecipeBook.Infrastructure.runtimeconfig.json
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/bin/Debug/net10.0/RecipeBook.Infrastructure.dll
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/bin/Debug/net10.0/RecipeBook.Infrastructure.pdb
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/bin/Debug/net10.0/RecipeBook.Domain.dll
@@ -8,11 +9,10 @@
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.AssemblyInfoInputs.cache
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.AssemblyInfo.cs
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.sourcelink.json
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBo.B6247778.Up2Date
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.dll
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/refint/RecipeBook.Infrastructure.dll
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.pdb
-/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/ref/RecipeBook.Infrastructure.dll
-/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/bin/Debug/net10.0/RecipeBook.Infrastructure.runtimeconfig.json
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.genruntimeconfig.cache
-/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.sourcelink.json
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/ref/RecipeBook.Infrastructure.dll
