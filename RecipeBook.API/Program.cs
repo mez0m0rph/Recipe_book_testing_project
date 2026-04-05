@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeBook.Infrastructure.Data;
+using RecipeBook.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,9 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<DishService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql("Host=127.0.0.1;Port=5432;Database=recipebook;Username=postgres;Password=postgres"));

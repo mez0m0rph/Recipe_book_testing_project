@@ -32,6 +32,8 @@ public class DishService
     {
         dish.CreatedAt = DateTime.UtcNow;
 
+        ApplyCategoryFromName(dish); // макросы
+
         var products = await _context.Products.ToListAsync();
 
         dish.Calories = 0;
@@ -66,6 +68,8 @@ public class DishService
         if (existing == null) throw new Exception("Dish not found");
 
         _context.Entry(existing).CurrentValues.SetValues(dish);
+
+        ApplyCategoryFromName(existing); // макросы
 
         var products = await _context.Products.ToListAsync();
         ApplyFlags(existing, products);
@@ -105,5 +109,20 @@ public class DishService
         if (vegan) dish.Flags |= Flags.Vegan;
         if (gluten) dish.Flags |= Flags.GlutenFree;
         if (sugar) dish.Flags |= Flags.SugarFree;
+    }
+
+    private void ApplyCategoryFromName(Dish dish)
+    {
+        if (string.IsNullOrWhiteSpace(dish.Name)) return;
+
+        var lowerName = dish.Name.ToLower();
+
+        if (lowerName.StartsWith("!десерт"))      { dish.Category = DishCategory.Dessert; dish.Name = dish.Name[7..].Trim(); return; }
+        if (lowerName.StartsWith("!первое"))      { dish.Category = DishCategory.FirstCourse;   dish.Name = dish.Name[7..].Trim(); return; }
+        if (lowerName.StartsWith("!второе"))      { dish.Category = DishCategory.SecondCourse;  dish.Name = dish.Name[7..].Trim(); return; }
+        if (lowerName.StartsWith("!напиток"))     { dish.Category = DishCategory.Drink;   dish.Name = dish.Name[8..].Trim(); return; }
+        if (lowerName.StartsWith("!салат"))       { dish.Category = DishCategory.Salad;   dish.Name = dish.Name[6..].Trim(); return; }
+        if (lowerName.StartsWith("!суп"))         { dish.Category = DishCategory.Soup;    dish.Name = dish.Name[4..].Trim(); return; }
+        if (lowerName.StartsWith("!перекус"))     { dish.Category = DishCategory.Snack;   dish.Name = dish.Name[8..].Trim(); return; }
     }
 }
