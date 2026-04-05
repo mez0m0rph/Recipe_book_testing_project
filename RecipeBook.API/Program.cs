@@ -1,23 +1,28 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeBook.Infrastructure.Data;
+using RecipeBook.Application.Interfaces;
+using RecipeBook.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=recipebook;Username=postgres;Password=postgres"));
+    options.UseNpgsql("Host=127.0.0.1;Port=5432;Database=recipebook;Username=postgres;Password=postgres"));
 
-builder.Build();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IDishService, DishService>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.Run();
+app.MapControllers();
 
+app.Run();

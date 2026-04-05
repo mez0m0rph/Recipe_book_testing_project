@@ -65,6 +65,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[10.0.1, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[10.1.7, )"
             }
           },
           "imports": [
@@ -529,6 +533,9 @@
             "projectReferences": {
               "/Users/a0000/Recipe_book_testing_project/RecipeBook.Domain/RecipeBook.Domain.csproj": {
                 "projectPath": "/Users/a0000/Recipe_book_testing_project/RecipeBook.Domain/RecipeBook.Domain.csproj"
+              },
+              "/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/RecipeBook.Infrastructure.csproj": {
+                "projectPath": "/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/RecipeBook.Infrastructure.csproj"
               }
             }
           }
@@ -548,6 +555,12 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

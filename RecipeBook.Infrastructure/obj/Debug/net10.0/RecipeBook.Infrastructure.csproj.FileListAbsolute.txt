@@ -15,3 +15,4 @@
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/ref/RecipeBook.Infrastructure.dll
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/bin/Debug/net10.0/RecipeBook.Infrastructure.runtimeconfig.json
 /Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.genruntimeconfig.cache
+/Users/a0000/Recipe_book_testing_project/RecipeBook.Infrastructure/obj/Debug/net10.0/RecipeBook.Infrastructure.sourcelink.json
