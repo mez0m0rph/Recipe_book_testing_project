@@ -25,6 +25,8 @@ public class ProductService
 
     public async Task<Product> CreateAsync(Product product)
     {
+        ValidateBJU(product);
+
         product.CreatedAt = DateTime.UtcNow;
 
         _context.Products.Add(product);
@@ -35,6 +37,8 @@ public class ProductService
 
     public async Task<Product> UpdateAsync(Product product)
     {
+        ValidateBJU(product);
+
         var existing = await _context.Products.FindAsync(product.Id);
         if (existing == null) throw new Exception("Product not found");
 
@@ -47,10 +51,22 @@ public class ProductService
 
     public async Task DeleteAsync(Guid id)
     {
+        var isUsed = await _context.DishIngredients
+            .AnyAsync(di => di.ProductId == id);
+
+        if (isUsed)
+            throw new Exception("Product is used in dishes");
+
         var product = await _context.Products.FindAsync(id);
         if (product == null) return;
 
         _context.Products.Remove(product);
         await _context.SaveChangesAsync();
+    }
+
+    private void ValidateBJU(Product p)
+    {
+        if (p.Proteins + p.Fats + p.Carbs > 100)
+            throw new Exception("BJU > 100");
     }
 }

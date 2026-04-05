@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RecipeBook.Application.Services;
+using RecipeBook.Domain.Enums;
 using RecipeBook.Domain.Entities;
 
 namespace RecipeBook.API.Controllers;
@@ -15,18 +16,35 @@ public class DishController : ControllerBase
         _dishService = dishService;
     }
 
+    // 🔥 ФИЛЬТРЫ + ПОИСК
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(
+        string? search,
+        int? category,
+        int? flags)
     {
         var dishes = await _dishService.GetAllAsync();
-        return Ok(dishes);
-    }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get(Guid id)
-    {
-        var dish = await _dishService.GetByIdAsync(id);
-        return Ok(dish);
+        if (!string.IsNullOrEmpty(search))
+            dishes = dishes
+                .Where(d => d.Name.ToLower().Contains(search.ToLower()))
+                .ToList();
+
+        if (category.HasValue)
+            dishes = dishes
+                .Where(d => (int)d.Category == category)
+                .ToList();
+
+        if (flags.HasValue)
+            {
+                var f = (Flags)flags.Value;
+
+                dishes = dishes
+                    .Where(d => (d.Flags & f) == f)
+                    .ToList();
+            }
+
+        return Ok(dishes);
     }
 
     [HttpPost]
@@ -34,13 +52,6 @@ public class DishController : ControllerBase
     {
         var created = await _dishService.CreateAsync(dish);
         return Ok(created);
-    }
-
-    [HttpPut]
-    public async Task<IActionResult> Update(Dish dish)
-    {
-        var updated = await _dishService.UpdateAsync(dish);
-        return Ok(updated);
     }
 
     [HttpDelete("{id}")]

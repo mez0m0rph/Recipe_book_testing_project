@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RecipeBook.Domain.Entities;
 using RecipeBook.Infrastructure.Data;
+using RecipeBook.Domain.Enums;
 
 namespace RecipeBook.Application.Services;
 
@@ -31,20 +32,24 @@ public class DishService
     {
         dish.CreatedAt = DateTime.UtcNow;
 
-        // КБЖУ расчет
         var products = await _context.Products.ToListAsync();
 
-        dish.Calories = dish.Ingredients.Sum(i =>
-            products.First(p => p.Id == i.ProductId).Calories * i.Amount / 100);
+        dish.Calories = 0;
+        dish.Proteins = 0;
+        dish.Fats = 0;
+        dish.Carbs = 0;
 
-        dish.Proteins = dish.Ingredients.Sum(i =>
-            products.First(p => p.Id == i.ProductId).Proteins * i.Amount / 100);
+        foreach (var i in dish.Ingredients)
+        {
+            var p = products.First(x => x.Id == i.ProductId);
 
-        dish.Fats = dish.Ingredients.Sum(i =>
-            products.First(p => p.Id == i.ProductId).Fats * i.Amount / 100);
+            dish.Calories += p.Calories * i.Amount / 100;
+            dish.Proteins += p.Proteins * i.Amount / 100;
+            dish.Fats += p.Fats * i.Amount / 100;
+            dish.Carbs += p.Carbs * i.Amount / 100;
+        }
 
-        dish.Carbs = dish.Ingredients.Sum(i =>
-            products.First(p => p.Id == i.ProductId).Carbs * i.Amount / 100);
+        ApplyFlags(dish, products);
 
         _context.Dishes.Add(dish);
         await _context.SaveChangesAsync();
@@ -61,6 +66,10 @@ public class DishService
         if (existing == null) throw new Exception("Dish not found");
 
         _context.Entry(existing).CurrentValues.SetValues(dish);
+
+        var products = await _context.Products.ToListAsync();
+        ApplyFlags(existing, products);
+
         existing.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -74,5 +83,27 @@ public class DishService
 
         _context.Dishes.Remove(dish);
         await _context.SaveChangesAsync();
+    }
+
+    private void ApplyFlags(Dish dish, List<Product> products)
+    {
+        bool vegan = true;
+        bool gluten = true;
+        bool sugar = true;
+
+        foreach (var i in dish.Ingredients)
+        {
+            var p = products.First(x => x.Id == i.ProductId);
+
+            if (!p.Flags.HasFlag(Flags.Vegan)) vegan = false;
+            if (!p.Flags.HasFlag(Flags.GlutenFree)) gluten = false;
+            if (!p.Flags.HasFlag(Flags.SugarFree)) sugar = false;
+        }
+
+        dish.Flags = 0;
+
+        if (vegan) dish.Flags |= Flags.Vegan;
+        if (gluten) dish.Flags |= Flags.GlutenFree;
+        if (sugar) dish.Flags |= Flags.SugarFree;
     }
 }
