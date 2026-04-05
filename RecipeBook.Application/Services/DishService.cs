@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RecipeBook.Application.Interfaces;
 using RecipeBook.Domain.Entities;
 using RecipeBook.Infrastructure.Data;
+using RecipeBook.Domain.Enums;
 
 namespace RecipeBook.Application.Services;
 
@@ -16,6 +17,8 @@ public class DishService : IDishService
 
     public async Task<Dish> CreateAsync(Dish dish)
     {
+        ApplyCategoryMacro(dish); 
+
         CalculateNutrition(dish);
 
         dish.Id = Guid.NewGuid();
@@ -27,11 +30,31 @@ public class DishService : IDishService
         return dish;
     }
 
-    public async Task<List<Dish>> GetAllAsync()
+    public async Task<List<Dish>> GetAllAsync(
+        string? search,
+        int? category,
+        int? flags)
     {
-        return await _context.Dishes
+        var query = _context.Dishes
             .Include(d => d.Ingredients)
-            .ToListAsync();
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(d => d.Name.ToLower().Contains(search.ToLower()));
+        }
+
+        if (category.HasValue)
+        {
+            query = query.Where(d => (int)d.Category == category.Value);
+        }
+
+        if (flags.HasValue)
+        {
+            query = query.Where(d => ((int)d.Flags & flags.Value) == flags.Value);
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task<Dish?> GetByIdAsync(Guid id)
@@ -43,6 +66,8 @@ public class DishService : IDishService
 
     public async Task<Dish> UpdateAsync(Dish dish)
     {
+        ApplyCategoryMacro(dish); 
+
         CalculateNutrition(dish);
 
         dish.UpdatedAt = DateTime.UtcNow;
@@ -60,6 +85,41 @@ public class DishService : IDishService
 
         _context.Dishes.Remove(dish);
         await _context.SaveChangesAsync();
+    }
+
+    private void ApplyCategoryMacro(Dish dish)
+    {
+        if (string.IsNullOrWhiteSpace(dish.Name)) return;
+
+        var name = dish.Name.ToLower();
+
+        var macros = new Dictionary<string, DishCategory>
+        {
+            { "!десерт", DishCategory.Dessert },
+            { "!первое", DishCategory.FirstCourse },
+            { "!второе", DishCategory.SecondCourse },
+            { "!напиток", DishCategory.Drink },
+            { "!салат", DishCategory.Salad },
+            { "!суп", DishCategory.Soup },
+            { "!перекус", DishCategory.Snack }
+        };
+
+        foreach (var macro in macros)
+        {
+            if (name.Contains(macro.Key))
+            {
+                if ((int)dish.Category == 0)
+                {
+                    dish.Category = macro.Value;
+                }
+
+                dish.Name = dish.Name
+                    .Replace(macro.Key, "", StringComparison.OrdinalIgnoreCase)
+                    .Trim();
+
+                break;
+            }
+        }
     }
 
     private void CalculateNutrition(Dish dish)
