@@ -1,60 +1,64 @@
 using Microsoft.AspNetCore.Mvc;
-using RecipeBook.Application.Services;
-using RecipeBook.Domain.Enums;
+using RecipeBook.Application.Interfaces;
 using RecipeBook.Domain.Entities;
+using RecipeBook.Domain.Enums;
 
 namespace RecipeBook.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/dishes")]
 public class DishController : ControllerBase
 {
-    private readonly DishService _dishService;
+    private readonly IDishService _dishService;
 
-    public DishController(DishService dishService)
+    public DishController(IDishService dishService)
     {
         _dishService = dishService;
     }
 
-    // 🔥 ФИЛЬТРЫ + ПОИСК
     [HttpGet]
     public async Task<IActionResult> GetAll(
-        string? search,
-        int? category,
-        int? flags)
+        [FromQuery] string? search,
+        [FromQuery] DishCategory? category,
+        [FromQuery] Flags? flags)
     {
-        var dishes = await _dishService.GetAllAsync();
-
-        if (!string.IsNullOrEmpty(search))
-            dishes = dishes
-                .Where(d => d.Name.ToLower().Contains(search.ToLower()))
-                .ToList();
-
-        if (category.HasValue)
-            dishes = dishes
-                .Where(d => (int)d.Category == category)
-                .ToList();
-
-        if (flags.HasValue)
-            {
-                var f = (Flags)flags.Value;
-
-                dishes = dishes
-                    .Where(d => (d.Flags & f) == f)
-                    .ToList();
-            }
-
+        var dishes = await _dishService.GetAllAsync(search, category, flags);
         return Ok(dishes);
     }
 
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var dish = await _dishService.GetByIdAsync(id);
+
+        if (dish == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(dish);
+    }
+
     [HttpPost]
-    public async Task<IActionResult> Create(Dish dish)
+    public async Task<IActionResult> Create([FromBody] Dish dish)
     {
         var created = await _dishService.CreateAsync(dish);
         return Ok(created);
     }
 
-    [HttpDelete("{id}")]
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] Dish dish)
+    {
+        if (id != dish.Id)
+        {
+            return BadRequest("Id в URL и в теле запроса не совпадают.");
+        }
+
+        var updated = await _dishService.UpdateAsync(dish);
+        return Ok(updated);
+    }
+
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _dishService.DeleteAsync(id);

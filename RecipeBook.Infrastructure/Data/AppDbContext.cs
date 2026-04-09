@@ -9,8 +9,7 @@ public class AppDbContext : DbContext
     public DbSet<Dish> Dishes => Set<Dish>();
     public DbSet<DishIngredient> DishIngredients => Set<DishIngredient>();
 
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
@@ -24,25 +23,29 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<DishIngredient>()
             .HasOne(di => di.Dish)
             .WithMany(d => d.Ingredients)
-            .HasForeignKey(di => di.DishId);
+            .HasForeignKey(di => di.DishId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DishIngredient>()
             .HasOne(di => di.Product)
             .WithMany()
-            .HasForeignKey(di => di.ProductId);
+            .HasForeignKey(di => di.ProductId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Product>()
             .Property(p => p.Photos)
             .HasConversion(
                 v => string.Join(';', v),
-                v => v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList()
-            );
+                v => string.IsNullOrWhiteSpace(v)
+                    ? new List<string>()
+                    : v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
 
         modelBuilder.Entity<Dish>()
             .Property(d => d.Photos)
             .HasConversion(
                 v => string.Join(';', v),
-                v => v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList()
-            );
+                v => string.IsNullOrWhiteSpace(v)
+                    ? new List<string>()
+                    : v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
     }
 }

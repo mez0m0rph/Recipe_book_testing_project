@@ -1,17 +1,19 @@
 using RecipeBook.Domain.Entities;
+using RecipeBook.Domain.Enums;
 
 namespace RecipeBook.Application.Interfaces;
 
 public interface IProductService
 {
-    Task<Product> CreateAsync(Product product);
     Task<List<Product>> GetAllAsync(
         string? search,
-        int? category,
-        int? cookingType,
-        int? flags,
+        ProductCategory? category,
+        CookingType? cookingType,
+        Flags? flags,
         string? sortBy);
+
     Task<Product?> GetByIdAsync(Guid id);
+    Task<Product> CreateAsync(Product product);
     Task<Product> UpdateAsync(Product product);
     Task DeleteAsync(Guid id);
 }

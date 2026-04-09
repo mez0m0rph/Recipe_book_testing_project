@@ -1,17 +1,57 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API = axios.create({
-  baseURL: 'http://localhost:5116/api', 
+const api = axios.create({
+    baseURL: "http://localhost:5116/api"
 });
 
-export const getProducts = () => API.get('/products');
-export const getProduct = (id) => API.get(`/products/${id}`);
-export const createProduct = (data) => API.post('/products', data);
-export const updateProduct = (id, data) => API.put(`/products/${id}`, data);
-export const deleteProduct = (id) => API.delete(`/products/${id}`);
+export const getProducts = async (params = {}) => {
+    const response = await api.get("/products", { params });
+    return response.data;
+};
 
-export const getDishes = () => API.get('/dishes');
-export const getDish = (id) => API.get(`/dishes/${id}`);
-export const createDish = (data) => API.post('/dishes', data);
-export const updateDish = (id, data) => API.put(`/dishes/${id}`, data);
-export const deleteDish = (id) => API.delete(`/dishes/${id}`);
+export const getProduct = async (id) => {
+    const response = await api.get(`/products/${id}`);
+    return response.data;
+};
+
+export const createProduct = async (product) => {
+    const response = await api.post("/products", product);
+    return response.data;
+};
+
+export const updateProduct = async (id, product) => {
+    const response = await api.put(`/products/${id}`, product);
+    return response.data;
+};
+
+export const deleteProduct = async (id) => {
+    const response = await api.delete(`/products/${id}`);
+    return response.data;
+};
+
+export const getDishes = async (params = {}) => {
+    const response = await api.get("/dishes", { params });
+    return response.data;
+};
+
+export const getDish = async (id) => {
+    const response = await api.get(`/dishes/${id}`);
+    return response.data;
+};
+
+export const createDish = async (dish) => {
+    const response = await api.post("/dishes", dish);
+    return response.data;
+};
+
+export const updateDish = async (id, dish) => {
+    const response = await api.put(`/dishes/${id}`, dish);
+    return response.data;
+};
+
+export const deleteDish = async (id) => {
+    const response = await api.delete(`/dishes/${id}`);
+    return response.data;
+};
+
+export default api;
