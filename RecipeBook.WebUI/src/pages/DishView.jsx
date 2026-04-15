@@ -2,6 +2,20 @@ import { useEffect, useState } from "react";
 import { getDish, getProducts } from "../api/api";
 import { Link, useParams } from "react-router-dom";
 
+function formatDate(value) {
+    if (!value) {
+        return "—";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleString("ru-RU");
+}
+
 export default function DishView() {
     const { id } = useParams();
     const [dish, setDish] = useState(null);
@@ -43,6 +57,8 @@ export default function DishView() {
             <p><strong>Жиры:</strong> {dish.fats}</p>
             <p><strong>Углеводы:</strong> {dish.carbs}</p>
             <p><strong>Флаги:</strong> {String(dish.flags)}</p>
+            <p><strong>Дата создания:</strong> {formatDate(dish.createdAt)}</p>
+            <p><strong>Дата редактирования:</strong> {formatDate(dish.updatedAt)}</p>
 
             <h3>Состав</h3>
             <ul>

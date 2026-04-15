@@ -2,6 +2,20 @@ import { useEffect, useState } from "react";
 import { getProduct } from "../api/api";
 import { Link, useParams } from "react-router-dom";
 
+function formatDate(value) {
+    if (!value) {
+        return "—";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return String(value);
+    }
+
+    return date.toLocaleString("ru-RU");
+}
+
 export default function ProductView() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
@@ -36,6 +50,8 @@ export default function ProductView() {
             <p><strong>Углеводы:</strong> {product.carbs}</p>
             <p><strong>Состав:</strong> {product.composition || "—"}</p>
             <p><strong>Флаги:</strong> {String(product.flags)}</p>
+            <p><strong>Дата создания:</strong> {formatDate(product.createdAt)}</p>
+            <p><strong>Дата редактирования:</strong> {formatDate(product.updatedAt)}</p>
 
             <div style={{ marginTop: "16px" }}>
                 <Link to={`/products/edit/${product.id}`}>Редактировать</Link>
