@@ -130,3 +130,4 @@
 /Users/a0000/Recipe_book_testing_project/RecipeBook.API/obj/Debug/net10.0/RecipeBook.API.pdb
 /Users/a0000/Recipe_book_testing_project/RecipeBook.API/obj/Debug/net10.0/RecipeBook.API.genruntimeconfig.cache
 /Users/a0000/Recipe_book_testing_project/RecipeBook.API/obj/Debug/net10.0/ref/RecipeBook.API.dll
+/Users/a0000/Recipe_book_testing_project/RecipeBook.API/bin/Debug/net10.0/RecipeBook.API.staticwebassets.runtime.json
