@@ -173,10 +173,10 @@ public class DishService : IDishService
             .Where(x => productIds.Contains(x.Id))
             .ToListAsync();
 
-        double calories = 0;
-        double proteins = 0;
-        double fats = 0;
-        double carbs = 0;
+        dish.Calories = DishNutritionCalculator.CalculateCaloriesPerPortion(dish.Ingredients, products);
+        dish.Proteins = DishNutritionCalculator.CalculateProteinsPerPortion(dish.Ingredients, products);
+        dish.Fats = DishNutritionCalculator.CalculateFatsPerPortion(dish.Ingredients, products);
+        dish.Carbs = DishNutritionCalculator.CalculateCarbsPerPortion(dish.Ingredients, products);
 
         bool veganAllowed = true;
         bool glutenFreeAllowed = true;
@@ -185,11 +185,6 @@ public class DishService : IDishService
         foreach (var ingredient in dish.Ingredients)
         {
             var product = products.First(x => x.Id == ingredient.ProductId);
-
-            calories += product.Calories * ingredient.Amount / 100.0;
-            proteins += product.Proteins * ingredient.Amount / 100.0;
-            fats += product.Fats * ingredient.Amount / 100.0;
-            carbs += product.Carbs * ingredient.Amount / 100.0;
 
             if (!product.Flags.HasFlag(Flags.Vegan))
             {
@@ -206,11 +201,6 @@ public class DishService : IDishService
                 sugarFreeAllowed = false;
             }
         }
-
-        dish.Calories = Math.Round(calories, 2);
-        dish.Proteins = Math.Round(proteins, 2);
-        dish.Fats = Math.Round(fats, 2);
-        dish.Carbs = Math.Round(carbs, 2);
 
         var bjuPer100g = dish.PortionSize > 0
             ? (dish.Proteins + dish.Fats + dish.Carbs) / dish.PortionSize * 100.0
