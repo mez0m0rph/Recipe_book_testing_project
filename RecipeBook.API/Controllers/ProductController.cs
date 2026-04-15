@@ -9,11 +9,11 @@ namespace RecipeBook.API.Controllers;
 [Route("api/products")]
 public class ProductController : ControllerBase
 {
-    private readonly IProductService _productService;
+    private readonly IProductService _service;
 
-    public ProductController(IProductService productService)
+    public ProductController(IProductService service)
     {
-        _productService = productService;
+        _service = service;
     }
 
     [HttpGet]
@@ -24,28 +24,34 @@ public class ProductController : ControllerBase
         [FromQuery] Flags? flags,
         [FromQuery] string? sortBy)
     {
-        var products = await _productService.GetAllAsync(search, category, cookingType, flags, sortBy);
-        return Ok(products);
+        var result = await _service.GetAllAsync(search, category, cookingType, flags, sortBy);
+        return Ok(result);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var product = await _productService.GetByIdAsync(id);
-
-        if (product == null)
+        var item = await _service.GetByIdAsync(id);
+        if (item == null)
         {
             return NotFound();
         }
 
-        return Ok(product);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Product product)
     {
-        var created = await _productService.CreateAsync(product);
-        return Ok(created);
+        try
+        {
+            var created = await _service.CreateAsync(product);
+            return Ok(created);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPut("{id:guid}")]
@@ -53,11 +59,18 @@ public class ProductController : ControllerBase
     {
         if (id != product.Id)
         {
-            return BadRequest("Id в URL и в теле запроса не совпадают.");
+            return BadRequest(new { message = "Id в URL и теле запроса не совпадают." });
         }
 
-        var updated = await _productService.UpdateAsync(product);
-        return Ok(updated);
+        try
+        {
+            var updated = await _service.UpdateAsync(product);
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpDelete("{id:guid}")]
@@ -65,7 +78,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            await _productService.DeleteAsync(id);
+            await _service.DeleteAsync(id);
             return Ok();
         }
         catch (Exception ex)

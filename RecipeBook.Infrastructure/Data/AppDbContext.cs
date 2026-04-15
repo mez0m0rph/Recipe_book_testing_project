@@ -18,34 +18,34 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<DishIngredient>()
-            .HasKey(di => new { di.DishId, di.ProductId });
+            .HasKey(x => new { x.DishId, x.ProductId });
 
         modelBuilder.Entity<DishIngredient>()
-            .HasOne(di => di.Dish)
-            .WithMany(d => d.Ingredients)
-            .HasForeignKey(di => di.DishId)
+            .HasOne(x => x.Dish)
+            .WithMany(x => x.Ingredients)
+            .HasForeignKey(x => x.DishId)
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DishIngredient>()
-            .HasOne(di => di.Product)
+            .HasOne(x => x.Product)
             .WithMany()
-            .HasForeignKey(di => di.ProductId)
+            .HasForeignKey(x => x.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Product>()
-            .Property(p => p.Photos)
+            .Property(x => x.Photos)
             .HasConversion(
-                v => string.Join(';', v),
-                v => string.IsNullOrWhiteSpace(v)
+                x => string.Join(";", x),
+                x => string.IsNullOrWhiteSpace(x)
                     ? new List<string>()
-                    : v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
+                    : x.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
 
         modelBuilder.Entity<Dish>()
-            .Property(d => d.Photos)
+            .Property(x => x.Photos)
             .HasConversion(
-                v => string.Join(';', v),
-                v => string.IsNullOrWhiteSpace(v)
+                x => string.Join(";", x),
+                x => string.IsNullOrWhiteSpace(x)
                     ? new List<string>()
-                    : v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
+                    : x.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList());
     }
 }

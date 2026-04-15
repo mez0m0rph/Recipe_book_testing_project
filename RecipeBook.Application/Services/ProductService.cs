@@ -27,32 +27,32 @@ public class ProductService : IProductService
         if (!string.IsNullOrWhiteSpace(search))
         {
             var lowered = search.Trim().ToLower();
-            query = query.Where(p => p.Name.ToLower().Contains(lowered));
+            query = query.Where(x => x.Name.ToLower().Contains(lowered));
         }
 
         if (category.HasValue)
         {
-            query = query.Where(p => p.Category == category.Value);
+            query = query.Where(x => x.Category == category.Value);
         }
 
         if (cookingType.HasValue)
         {
-            query = query.Where(p => p.CookingType == cookingType.Value);
+            query = query.Where(x => x.CookingType == cookingType.Value);
         }
 
         if (flags.HasValue && flags.Value != Flags.None)
         {
-            query = query.Where(p => (p.Flags & flags.Value) == flags.Value);
+            query = query.Where(x => (x.Flags & flags.Value) == flags.Value);
         }
 
-        query = sortBy?.ToLower() switch
+        query = (sortBy ?? "name").ToLower() switch
         {
-            "name" => query.OrderBy(p => p.Name),
-            "calories" => query.OrderBy(p => p.Calories),
-            "proteins" => query.OrderBy(p => p.Proteins),
-            "fats" => query.OrderBy(p => p.Fats),
-            "carbs" => query.OrderBy(p => p.Carbs),
-            _ => query.OrderBy(p => p.Name)
+            "name" => query.OrderBy(x => x.Name),
+            "calories" => query.OrderBy(x => x.Calories),
+            "proteins" => query.OrderBy(x => x.Proteins),
+            "fats" => query.OrderBy(x => x.Fats),
+            "carbs" => query.OrderBy(x => x.Carbs),
+            _ => query.OrderBy(x => x.Name)
         };
 
         return await query.ToListAsync();
@@ -70,6 +70,7 @@ public class ProductService : IProductService
         product.Id = product.Id == Guid.Empty ? Guid.NewGuid() : product.Id;
         product.CreatedAt = DateTime.UtcNow;
         product.UpdatedAt = null;
+        product.Photos ??= new List<string>();
 
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
@@ -88,6 +89,7 @@ public class ProductService : IProductService
         }
 
         existing.Name = product.Name;
+        existing.Photos = product.Photos ?? new List<string>();
         existing.Calories = product.Calories;
         existing.Proteins = product.Proteins;
         existing.Fats = product.Fats;
@@ -96,7 +98,6 @@ public class ProductService : IProductService
         existing.Category = product.Category;
         existing.CookingType = product.CookingType;
         existing.Flags = product.Flags;
-        existing.Photos = product.Photos ?? new List<string>();
         existing.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
@@ -107,16 +108,15 @@ public class ProductService : IProductService
     public async Task DeleteAsync(Guid id)
     {
         var usedInDishes = await _context.DishIngredients
-            .Where(di => di.ProductId == id)
-            .Include(di => di.Dish)
-            .Select(di => di.Dish != null ? di.Dish.Name : null)
-            .Where(name => name != null)
+            .Where(x => x.ProductId == id)
+            .Include(x => x.Dish)
+            .Select(x => x.Dish != null ? x.Dish.Name : null)
+            .Where(x => x != null)
             .ToListAsync();
 
         if (usedInDishes.Count > 0)
         {
-            throw new Exception(
-                $"Нельзя удалить продукт. Он используется в блюдах: {string.Join(", ", usedInDishes!)}");
+            throw new Exception($"Нельзя удалить продукт. Он используется в блюдах: {string.Join(", ", usedInDishes!)}");
         }
 
         var product = await _context.Products.FindAsync(id);
@@ -143,19 +143,19 @@ public class ProductService : IProductService
 
         if (product.Proteins > 100 || product.Fats > 100 || product.Carbs > 100)
         {
-            throw new Exception("Белки, жиры и углеводы не могут быть больше 100 на 100 грамм.");
+            throw new Exception("Белки, жиры и углеводы не могут быть больше 100.");
         }
 
         if (product.Proteins + product.Fats + product.Carbs > 100)
         {
-            throw new Exception("Сумма БЖУ не может превышать 100 на 100 грамм.");
+            throw new Exception("Сумма БЖУ на 100 грамм не может превышать 100.");
         }
 
         product.Photos ??= new List<string>();
 
         if (product.Photos.Count > 5)
         {
-            throw new Exception("Можно указать не более 5 фотографий продукта.");
+            throw new Exception("Фотографий может быть не более 5.");
         }
     }
 }

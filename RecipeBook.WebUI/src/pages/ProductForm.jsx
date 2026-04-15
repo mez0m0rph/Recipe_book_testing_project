@@ -28,9 +28,7 @@ const flagOptions = [
 
 function flagsToArray(flags) {
     if (typeof flags === "number") {
-        return flagOptions
-            .filter((f) => (flags & f.bit) === f.bit)
-            .map((f) => f.value);
+        return flagOptions.filter((f) => (flags & f.bit) === f.bit).map((f) => f.value);
     }
 
     if (typeof flags === "string") {
@@ -38,10 +36,7 @@ function flagsToArray(flags) {
             return [];
         }
 
-        return flags
-            .split(",")
-            .map((x) => x.trim())
-            .filter(Boolean);
+        return flags.split(",").map((x) => x.trim()).filter(Boolean);
     }
 
     return [];
@@ -91,10 +86,8 @@ export default function ProductForm() {
             return;
         }
 
-        const load = async () => {
-            try {
-                const data = await getProduct(id);
-
+        getProduct(id)
+            .then((data) => {
                 setForm({
                     id: data.id ?? "",
                     name: data.name ?? "",
@@ -108,22 +101,16 @@ export default function ProductForm() {
                     cookingType: data.cookingType ?? "ReadyToEat",
                     flags: flagsToArray(data.flags)
                 });
-            } catch (err) {
+            })
+            .catch((err) => {
                 console.error(err);
                 setError("Не удалось загрузить продукт.");
-            }
-        };
-
-        load();
+            });
     }, [id]);
 
     const handleChange = (e) => {
-        const { name, value, type } = e.target;
-
-        setForm((prev) => ({
-            ...prev,
-            [name]: type === "number" ? value : value
-        }));
+        const { name, value } = e.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleFlagChange = (flagValue, checked) => {
@@ -131,8 +118,18 @@ export default function ProductForm() {
             ...prev,
             flags: checked
                 ? [...prev.flags, flagValue]
-                : prev.flags.filter((f) => f !== flagValue)
+                : prev.flags.filter((x) => x !== flagValue)
         }));
+    };
+
+    const handlePhotosChange = (e) => {
+        const items = e.target.value
+            .split("\n")
+            .map((x) => x.trim())
+            .filter(Boolean)
+            .slice(0, 5);
+
+        setForm((prev) => ({ ...prev, photos: items }));
     };
 
     const handleSubmit = async (e) => {
@@ -142,7 +139,7 @@ export default function ProductForm() {
         const payload = {
             id: form.id || undefined,
             name: form.name.trim(),
-            photos: Array.isArray(form.photos) ? form.photos : [],
+            photos: form.photos,
             calories: toNumber(form.calories),
             proteins: toNumber(form.proteins),
             fats: toNumber(form.fats),
@@ -155,6 +152,11 @@ export default function ProductForm() {
 
         if (payload.name.length < 2) {
             setError("Название продукта должно содержать минимум 2 символа.");
+            return;
+        }
+
+        if (payload.photos.length > 5) {
+            setError("Можно указать не более 5 фотографий.");
             return;
         }
 
@@ -181,128 +183,80 @@ export default function ProductForm() {
         <div>
             <h2>{id ? "Редактировать продукт" : "Создать продукт"}</h2>
 
-            {error && (
-                <div style={{ color: "red", marginBottom: "12px" }}>
-                    {error}
-                </div>
-            )}
+            {error && <div style={{ color: "red", marginBottom: "12px" }}>{error}</div>}
 
             <form onSubmit={handleSubmit}>
-                <div style={fieldStyle}>
+                <div style={field}>
                     <label>Название</label>
                     <br />
-                    <input
-                        name="name"
-                        value={form.name}
-                        onChange={handleChange}
-                        required
-                    />
+                    <input name="name" value={form.name} onChange={handleChange} required />
                 </div>
 
-                <div style={fieldStyle}>
-                    <label>Калорийность</label>
-                    <br />
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        name="calories"
-                        value={form.calories}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div style={fieldStyle}>
-                    <label>Белки</label>
-                    <br />
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        max="100"
-                        name="proteins"
-                        value={form.proteins}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div style={fieldStyle}>
-                    <label>Жиры</label>
-                    <br />
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        max="100"
-                        name="fats"
-                        value={form.fats}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div style={fieldStyle}>
-                    <label>Углеводы</label>
-                    <br />
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        max="100"
-                        name="carbs"
-                        value={form.carbs}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div style={fieldStyle}>
-                    <label>Состав</label>
+                <div style={field}>
+                    <label>Фотографии (по одной ссылке на строку, максимум 5)</label>
                     <br />
                     <textarea
-                        name="composition"
-                        value={form.composition}
-                        onChange={handleChange}
-                        rows="4"
-                        cols="40"
+                        rows="5"
+                        value={form.photos.join("\n")}
+                        onChange={handlePhotosChange}
                     />
                 </div>
 
-                <div style={fieldStyle}>
+                <div style={field}>
+                    <label>Калорийность</label>
+                    <br />
+                    <input type="number" step="0.01" min="0" name="calories" value={form.calories} onChange={handleChange} required />
+                </div>
+
+                <div style={field}>
+                    <label>Белки</label>
+                    <br />
+                    <input type="number" step="0.01" min="0" max="100" name="proteins" value={form.proteins} onChange={handleChange} required />
+                </div>
+
+                <div style={field}>
+                    <label>Жиры</label>
+                    <br />
+                    <input type="number" step="0.01" min="0" max="100" name="fats" value={form.fats} onChange={handleChange} required />
+                </div>
+
+                <div style={field}>
+                    <label>Углеводы</label>
+                    <br />
+                    <input type="number" step="0.01" min="0" max="100" name="carbs" value={form.carbs} onChange={handleChange} required />
+                </div>
+
+                <div style={field}>
+                    <label>Состав</label>
+                    <br />
+                    <textarea name="composition" value={form.composition} onChange={handleChange} rows="4" />
+                </div>
+
+                <div style={field}>
                     <label>Категория</label>
                     <br />
-                    <select
-                        name="category"
-                        value={form.category}
-                        onChange={handleChange}
-                    >
-                        {categoryOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
+                    <select name="category" value={form.category} onChange={handleChange}>
+                        {categoryOptions.map((x) => (
+                            <option key={x.value} value={x.value}>
+                                {x.label}
                             </option>
                         ))}
                     </select>
                 </div>
 
-                <div style={fieldStyle}>
+                <div style={field}>
                     <label>Необходимость готовки</label>
                     <br />
-                    <select
-                        name="cookingType"
-                        value={form.cookingType}
-                        onChange={handleChange}
-                    >
-                        {cookingTypeOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
+                    <select name="cookingType" value={form.cookingType} onChange={handleChange}>
+                        {cookingTypeOptions.map((x) => (
+                            <option key={x.value} value={x.value}>
+                                {x.label}
                             </option>
                         ))}
                     </select>
                 </div>
 
-                <div style={fieldStyle}>
+                <div style={field}>
                     <label>Флаги</label>
                     {flagOptions.map((flag) => (
                         <div key={flag.value}>
@@ -310,9 +264,7 @@ export default function ProductForm() {
                                 <input
                                     type="checkbox"
                                     checked={form.flags.includes(flag.value)}
-                                    onChange={(e) =>
-                                        handleFlagChange(flag.value, e.target.checked)
-                                    }
+                                    onChange={(e) => handleFlagChange(flag.value, e.target.checked)}
                                 />
                                 {flag.label}
                             </label>
@@ -326,6 +278,6 @@ export default function ProductForm() {
     );
 }
 
-const fieldStyle = {
+const field = {
     marginBottom: "12px"
 };

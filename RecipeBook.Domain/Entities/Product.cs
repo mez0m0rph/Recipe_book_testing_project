@@ -8,6 +8,8 @@ public class Product
 
     public string Name { get; set; } = null!;
 
+    public List<string> Photos { get; set; } = new();
+
     public double Calories { get; set; }
     public double Proteins { get; set; }
     public double Fats { get; set; }
@@ -16,12 +18,9 @@ public class Product
     public string? Composition { get; set; }
 
     public ProductCategory Category { get; set; }
-
     public CookingType CookingType { get; set; }
 
     public Flags Flags { get; set; } = Flags.None;
-
-    public List<string> Photos { get; set; } = new();
 
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }

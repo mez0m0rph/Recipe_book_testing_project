@@ -9,11 +9,11 @@ namespace RecipeBook.API.Controllers;
 [Route("api/dishes")]
 public class DishController : ControllerBase
 {
-    private readonly IDishService _dishService;
+    private readonly IDishService _service;
 
-    public DishController(IDishService dishService)
+    public DishController(IDishService service)
     {
-        _dishService = dishService;
+        _service = service;
     }
 
     [HttpGet]
@@ -22,28 +22,34 @@ public class DishController : ControllerBase
         [FromQuery] DishCategory? category,
         [FromQuery] Flags? flags)
     {
-        var dishes = await _dishService.GetAllAsync(search, category, flags);
-        return Ok(dishes);
+        var result = await _service.GetAllAsync(search, category, flags);
+        return Ok(result);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        var dish = await _dishService.GetByIdAsync(id);
-
-        if (dish == null)
+        var item = await _service.GetByIdAsync(id);
+        if (item == null)
         {
             return NotFound();
         }
 
-        return Ok(dish);
+        return Ok(item);
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Dish dish)
     {
-        var created = await _dishService.CreateAsync(dish);
-        return Ok(created);
+        try
+        {
+            var created = await _service.CreateAsync(dish);
+            return Ok(created);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPut("{id:guid}")]
@@ -51,17 +57,31 @@ public class DishController : ControllerBase
     {
         if (id != dish.Id)
         {
-            return BadRequest("Id в URL и в теле запроса не совпадают.");
+            return BadRequest(new { message = "Id в URL и теле запроса не совпадают." });
         }
 
-        var updated = await _dishService.UpdateAsync(dish);
-        return Ok(updated);
+        try
+        {
+            var updated = await _service.UpdateAsync(dish);
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _dishService.DeleteAsync(id);
-        return Ok();
+        try
+        {
+            await _service.DeleteAsync(id);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }

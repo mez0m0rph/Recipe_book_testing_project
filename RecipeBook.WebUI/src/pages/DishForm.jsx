@@ -20,9 +20,7 @@ const flagOptions = [
 
 function flagsToArray(flags) {
     if (typeof flags === "number") {
-        return flagOptions
-            .filter((f) => (flags & f.bit) === f.bit)
-            .map((f) => f.value);
+        return flagOptions.filter((f) => (flags & f.bit) === f.bit).map((f) => f.value);
     }
 
     if (typeof flags === "string") {
@@ -30,10 +28,7 @@ function flagsToArray(flags) {
             return [];
         }
 
-        return flags
-            .split(",")
-            .map((x) => x.trim())
-            .filter(Boolean);
+        return flags.split(",").map((x) => x.trim()).filter(Boolean);
     }
 
     return [];
@@ -58,6 +53,41 @@ function toNumber(value) {
     return Number.isNaN(parsed) ? 0 : parsed;
 }
 
+function getMacroCategory(name) {
+    const words = (name || "").split(" ").filter(Boolean);
+    const macro = words.find((x) => x.startsWith("!"));
+
+    switch ((macro || "").toLowerCase()) {
+        case "!десерт":
+            return "Dessert";
+        case "!первое":
+            return "FirstCourse";
+        case "!второе":
+            return "SecondCourse";
+        case "!напиток":
+            return "Drink";
+        case "!салат":
+            return "Salad";
+        case "!суп":
+            return "Soup";
+        case "!перекус":
+            return "Snack";
+        default:
+            return null;
+    }
+}
+
+function stripFirstMacro(name) {
+    const words = (name || "").split(" ").filter(Boolean);
+    const index = words.findIndex((x) => x.startsWith("!"));
+
+    if (index >= 0) {
+        words.splice(index, 1);
+    }
+
+    return words.join(" ").trim();
+}
+
 export default function DishForm() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -67,35 +97,27 @@ export default function DishForm() {
         id: "",
         name: "",
         photos: [],
-        calories: 0,
-        proteins: 0,
-        fats: 0,
-        carbs: 0,
         portionSize: "",
         category: "Snack",
         flags: [],
-        ingredients: [
-            {
-                productId: "",
-                amount: ""
-            }
-        ]
+        ingredients: [{ productId: "", amount: "" }],
+        calories: "",
+        proteins: "",
+        fats: "",
+        carbs: ""
     });
 
     const [error, setError] = useState("");
 
     useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const data = await getProducts();
+        getProducts()
+            .then((data) => {
                 setProducts(Array.isArray(data) ? data : []);
-            } catch (err) {
+            })
+            .catch((err) => {
                 console.error(err);
                 setError("Не удалось загрузить продукты.");
-            }
-        };
-
-        loadProducts();
+            });
     }, []);
 
     useEffect(() => {
@@ -103,70 +125,95 @@ export default function DishForm() {
             return;
         }
 
-        const loadDish = async () => {
-            try {
-                const data = await getDish(id);
-
+        getDish(id)
+            .then((data) => {
                 setForm({
                     id: data.id ?? "",
                     name: data.name ?? "",
                     photos: Array.isArray(data.photos) ? data.photos : [],
-                    calories: data.calories ?? 0,
-                    proteins: data.proteins ?? 0,
-                    fats: data.fats ?? 0,
-                    carbs: data.carbs ?? 0,
                     portionSize: data.portionSize ?? "",
                     category: data.category ?? "Snack",
                     flags: flagsToArray(data.flags),
                     ingredients:
                         Array.isArray(data.ingredients) && data.ingredients.length > 0
-                            ? data.ingredients.map((item) => ({
-                                  productId: item.productId ?? "",
-                                  amount: item.amount ?? ""
+                            ? data.ingredients.map((x) => ({
+                                  productId: x.productId ?? "",
+                                  amount: x.amount ?? ""
                               }))
-                            : [
-                                  {
-                                      productId: "",
-                                      amount: ""
-                                  }
-                              ]
+                            : [{ productId: "", amount: "" }],
+                    calories: data.calories ?? "",
+                    proteins: data.proteins ?? "",
+                    fats: data.fats ?? "",
+                    carbs: data.carbs ?? ""
                 });
-            } catch (err) {
+            })
+            .catch((err) => {
                 console.error(err);
                 setError("Не удалось загрузить блюдо.");
-            }
-        };
-
-        loadDish();
+            });
     }, [id]);
 
-    const calculatedNutrition = useMemo(() => {
+    const draftNutrition = useMemo(() => {
         let calories = 0;
         let proteins = 0;
         let fats = 0;
         let carbs = 0;
 
-        form.ingredients.forEach((ingredient) => {
+        let veganAllowed = true;
+        let glutenFreeAllowed = true;
+        let sugarFreeAllowed = true;
+
+        for (const ingredient of form.ingredients) {
             const product = products.find((p) => p.id === ingredient.productId);
             const amount = toNumber(ingredient.amount);
 
             if (!product || amount <= 0) {
-                return;
+                continue;
             }
 
             calories += (toNumber(product.calories) * amount) / 100;
             proteins += (toNumber(product.proteins) * amount) / 100;
             fats += (toNumber(product.fats) * amount) / 100;
             carbs += (toNumber(product.carbs) * amount) / 100;
-        });
+
+            const productFlagsNumber = typeof product.flags === "number" ? product.flags : 0;
+
+            if ((productFlagsNumber & 1) !== 1) {
+                veganAllowed = false;
+            }
+
+            if ((productFlagsNumber & 2) !== 2) {
+                glutenFreeAllowed = false;
+            }
+
+            if ((productFlagsNumber & 4) !== 4) {
+                sugarFreeAllowed = false;
+            }
+        }
 
         return {
             calories: Number(calories.toFixed(2)),
             proteins: Number(proteins.toFixed(2)),
             fats: Number(fats.toFixed(2)),
-            carbs: Number(carbs.toFixed(2))
+            carbs: Number(carbs.toFixed(2)),
+            allowedFlags: {
+                Vegan: veganAllowed,
+                GlutenFree: glutenFreeAllowed,
+                SugarFree: sugarFreeAllowed
+            }
         };
     }, [form.ingredients, products]);
+
+    useEffect(() => {
+        setForm((prev) => ({
+            ...prev,
+            flags: prev.flags.filter((flag) => draftNutrition.allowedFlags[flag]),
+            calories: prev.calories === "" ? draftNutrition.calories : prev.calories,
+            proteins: prev.proteins === "" ? draftNutrition.proteins : prev.proteins,
+            fats: prev.fats === "" ? draftNutrition.fats : prev.fats,
+            carbs: prev.carbs === "" ? draftNutrition.carbs : prev.carbs
+        }));
+    }, [draftNutrition.calories, draftNutrition.proteins, draftNutrition.fats, draftNutrition.carbs, draftNutrition.allowedFlags.Vegan, draftNutrition.allowedFlags.GlutenFree, draftNutrition.allowedFlags.SugarFree]);
 
     const handleBaseChange = (e) => {
         const { name, value } = e.target;
@@ -181,12 +228,7 @@ export default function DishForm() {
         setForm((prev) => ({
             ...prev,
             ingredients: prev.ingredients.map((item, i) =>
-                i === index
-                    ? {
-                          ...item,
-                          [field]: value
-                      }
-                    : item
+                i === index ? { ...item, [field]: value } : item
             )
         }));
     };
@@ -194,13 +236,7 @@ export default function DishForm() {
     const addIngredient = () => {
         setForm((prev) => ({
             ...prev,
-            ingredients: [
-                ...prev.ingredients,
-                {
-                    productId: "",
-                    amount: ""
-                }
-            ]
+            ingredients: [...prev.ingredients, { productId: "", amount: "" }]
         }));
     };
 
@@ -214,12 +250,39 @@ export default function DishForm() {
         }));
     };
 
+    const handlePhotosChange = (e) => {
+        const items = e.target.value
+            .split("\n")
+            .map((x) => x.trim())
+            .filter(Boolean)
+            .slice(0, 5);
+
+        setForm((prev) => ({
+            ...prev,
+            photos: items
+        }));
+    };
+
     const handleFlagChange = (flagValue, checked) => {
+        if (!draftNutrition.allowedFlags[flagValue]) {
+            return;
+        }
+
         setForm((prev) => ({
             ...prev,
             flags: checked
                 ? [...prev.flags, flagValue]
-                : prev.flags.filter((f) => f !== flagValue)
+                : prev.flags.filter((x) => x !== flagValue)
+        }));
+    };
+
+    const resetDraftValues = () => {
+        setForm((prev) => ({
+            ...prev,
+            calories: draftNutrition.calories,
+            proteins: draftNutrition.proteins,
+            fats: draftNutrition.fats,
+            carbs: draftNutrition.carbs
         }));
     };
 
@@ -228,22 +291,24 @@ export default function DishForm() {
         setError("");
 
         const cleanedIngredients = form.ingredients
-            .map((item) => ({
-                productId: item.productId,
-                amount: toNumber(item.amount)
+            .map((x) => ({
+                productId: x.productId,
+                amount: toNumber(x.amount)
             }))
-            .filter((item) => item.productId && item.amount > 0);
+            .filter((x) => x.productId && x.amount > 0);
+
+        const macroCategory = getMacroCategory(form.name);
 
         const payload = {
             id: form.id || undefined,
-            name: form.name.trim(),
-            photos: Array.isArray(form.photos) ? form.photos : [],
-            calories: calculatedNutrition.calories,
-            proteins: calculatedNutrition.proteins,
-            fats: calculatedNutrition.fats,
-            carbs: calculatedNutrition.carbs,
+            name: stripFirstMacro(form.name),
+            photos: form.photos,
+            calories: toNumber(form.calories),
+            proteins: toNumber(form.proteins),
+            fats: toNumber(form.fats),
+            carbs: toNumber(form.carbs),
             portionSize: toNumber(form.portionSize),
-            category: form.category,
+            category: form.category || macroCategory || "Snack",
             flags: flagsToNumber(form.flags),
             ingredients: cleanedIngredients
         };
@@ -253,13 +318,23 @@ export default function DishForm() {
             return;
         }
 
+        if (payload.photos.length > 5) {
+            setError("Можно указать не более 5 фотографий.");
+            return;
+        }
+
         if (payload.portionSize <= 0) {
             setError("Размер порции должен быть больше 0.");
             return;
         }
 
-        if (payload.ingredients.length === 0) {
-            setError("Добавь хотя бы один продукт в состав блюда.");
+        if (payload.ingredients.length < 1) {
+            setError("Нужно добавить хотя бы один продукт в состав.");
+            return;
+        }
+
+        if (payload.proteins + payload.fats + payload.carbs > 100) {
+            setError("Сумма БЖУ не может превышать 100.");
             return;
         }
 
@@ -281,65 +356,49 @@ export default function DishForm() {
         <div>
             <h2>{id ? "Редактировать блюдо" : "Создать блюдо"}</h2>
 
-            {error && (
-                <div style={{ color: "red", marginBottom: "12px" }}>
-                    {error}
-                </div>
-            )}
+            {error && <div style={{ color: "red", marginBottom: "12px" }}>{error}</div>}
 
             <form onSubmit={handleSubmit}>
-                <div style={fieldStyle}>
+                <div style={field}>
                     <label>Название</label>
                     <br />
-                    <input
-                        name="name"
-                        value={form.name}
-                        onChange={handleBaseChange}
-                        required
-                    />
+                    <input name="name" value={form.name} onChange={handleBaseChange} required />
                 </div>
 
-                <div style={fieldStyle}>
+                <div style={field}>
+                    <label>Фотографии (по одной ссылке на строку, максимум 5)</label>
+                    <br />
+                    <textarea rows="5" value={form.photos.join("\n")} onChange={handlePhotosChange} />
+                </div>
+
+                <div style={field}>
                     <label>Размер порции, г</label>
                     <br />
-                    <input
-                        type="number"
-                        min="0.01"
-                        step="0.01"
-                        name="portionSize"
-                        value={form.portionSize}
-                        onChange={handleBaseChange}
-                        required
-                    />
+                    <input type="number" min="0.01" step="0.01" name="portionSize" value={form.portionSize} onChange={handleBaseChange} required />
                 </div>
 
-                <div style={fieldStyle}>
+                <div style={field}>
                     <label>Категория</label>
                     <br />
-                    <select
-                        name="category"
-                        value={form.category}
-                        onChange={handleBaseChange}
-                    >
-                        {categoryOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
+                    <select name="category" value={form.category} onChange={handleBaseChange}>
+                        {categoryOptions.map((x) => (
+                            <option key={x.value} value={x.value}>
+                                {x.label}
                             </option>
                         ))}
                     </select>
                 </div>
 
-                <div style={fieldStyle}>
+                <div style={field}>
                     <label>Флаги</label>
                     {flagOptions.map((flag) => (
                         <div key={flag.value}>
-                            <label>
+                            <label style={{ opacity: draftNutrition.allowedFlags[flag.value] ? 1 : 0.5 }}>
                                 <input
                                     type="checkbox"
                                     checked={form.flags.includes(flag.value)}
-                                    onChange={(e) =>
-                                        handleFlagChange(flag.value, e.target.checked)
-                                    }
+                                    disabled={!draftNutrition.allowedFlags[flag.value]}
+                                    onChange={(e) => handleFlagChange(flag.value, e.target.checked)}
                                 />
                                 {flag.label}
                             </label>
@@ -347,24 +406,14 @@ export default function DishForm() {
                     ))}
                 </div>
 
-                <div style={fieldStyle}>
+                <div style={field}>
                     <label>Состав блюда</label>
 
                     {form.ingredients.map((ingredient, index) => (
-                        <div
-                            key={index}
-                            style={{
-                                display: "flex",
-                                gap: "8px",
-                                alignItems: "center",
-                                marginTop: "8px"
-                            }}
-                        >
+                        <div key={index} style={{ display: "flex", gap: "8px", alignItems: "center", marginTop: "8px" }}>
                             <select
                                 value={ingredient.productId}
-                                onChange={(e) =>
-                                    handleIngredientChange(index, "productId", e.target.value)
-                                }
+                                onChange={(e) => handleIngredientChange(index, "productId", e.target.value)}
                             >
                                 <option value="">Выбери продукт</option>
                                 {products.map((product) => (
@@ -380,15 +429,10 @@ export default function DishForm() {
                                 step="0.01"
                                 placeholder="Количество, г"
                                 value={ingredient.amount}
-                                onChange={(e) =>
-                                    handleIngredientChange(index, "amount", e.target.value)
-                                }
+                                onChange={(e) => handleIngredientChange(index, "amount", e.target.value)}
                             />
 
-                            <button
-                                type="button"
-                                onClick={() => removeIngredient(index)}
-                            >
+                            <button type="button" onClick={() => removeIngredient(index)}>
                                 Удалить
                             </button>
                         </div>
@@ -401,12 +445,39 @@ export default function DishForm() {
                     </div>
                 </div>
 
-                <div style={fieldStyle}>
-                    <strong>Автоматический расчёт КБЖУ:</strong>
-                    <div>Калории: {calculatedNutrition.calories}</div>
-                    <div>Белки: {calculatedNutrition.proteins}</div>
-                    <div>Жиры: {calculatedNutrition.fats}</div>
-                    <div>Углеводы: {calculatedNutrition.carbs}</div>
+                <div style={field}>
+                    <strong>Черновые автоматически рассчитанные КБЖУ</strong>
+                    <div>Калории: {draftNutrition.calories}</div>
+                    <div>Белки: {draftNutrition.proteins}</div>
+                    <div>Жиры: {draftNutrition.fats}</div>
+                    <div>Углеводы: {draftNutrition.carbs}</div>
+                    <button type="button" onClick={resetDraftValues} style={{ marginTop: "8px" }}>
+                        Подставить черновые значения
+                    </button>
+                </div>
+
+                <div style={field}>
+                    <label>Калории (можно скорректировать вручную)</label>
+                    <br />
+                    <input type="number" step="0.01" min="0" name="calories" value={form.calories} onChange={handleBaseChange} required />
+                </div>
+
+                <div style={field}>
+                    <label>Белки (можно скорректировать вручную)</label>
+                    <br />
+                    <input type="number" step="0.01" min="0" name="proteins" value={form.proteins} onChange={handleBaseChange} required />
+                </div>
+
+                <div style={field}>
+                    <label>Жиры (можно скорректировать вручную)</label>
+                    <br />
+                    <input type="number" step="0.01" min="0" name="fats" value={form.fats} onChange={handleBaseChange} required />
+                </div>
+
+                <div style={field}>
+                    <label>Углеводы (можно скорректировать вручную)</label>
+                    <br />
+                    <input type="number" step="0.01" min="0" name="carbs" value={form.carbs} onChange={handleBaseChange} required />
                 </div>
 
                 <button type="submit">Сохранить</button>
@@ -415,6 +486,6 @@ export default function DishForm() {
     );
 }
 
-const fieldStyle = {
+const field = {
     marginBottom: "16px"
 };

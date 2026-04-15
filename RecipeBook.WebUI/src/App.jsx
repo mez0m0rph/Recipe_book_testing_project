@@ -1,8 +1,10 @@
 import { Link, Navigate, Route, Routes } from "react-router-dom";
 import Products from "./pages/Products";
 import ProductForm from "./pages/ProductForm";
+import ProductView from "./pages/ProductView";
 import Dishes from "./pages/Dishes";
 import DishForm from "./pages/DishForm";
+import DishView from "./pages/DishView";
 
 function App() {
     return (
@@ -17,7 +19,6 @@ function App() {
                 }}
             >
                 <h1 style={{ margin: 0, fontSize: "24px" }}>Книга рецептов</h1>
-
                 <nav style={{ display: "flex", gap: "12px" }}>
                     <Link to="/products">Продукты</Link>
                     <Link to="/dishes">Блюда</Link>
@@ -31,10 +32,12 @@ function App() {
                     <Route path="/products" element={<Products />} />
                     <Route path="/products/create" element={<ProductForm />} />
                     <Route path="/products/edit/:id" element={<ProductForm />} />
+                    <Route path="/products/:id" element={<ProductView />} />
 
                     <Route path="/dishes" element={<Dishes />} />
                     <Route path="/dishes/create" element={<DishForm />} />
                     <Route path="/dishes/edit/:id" element={<DishForm />} />
+                    <Route path="/dishes/:id" element={<DishView />} />
 
                     <Route path="*" element={<Navigate to="/products" replace />} />
                 </Routes>

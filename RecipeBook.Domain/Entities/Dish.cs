@@ -8,6 +8,8 @@ public class Dish
 
     public string Name { get; set; } = null!;
 
+    public List<string> Photos { get; set; } = new();
+
     public double Calories { get; set; }
     public double Proteins { get; set; }
     public double Fats { get; set; }
@@ -18,8 +20,6 @@ public class Dish
     public DishCategory Category { get; set; }
 
     public Flags Flags { get; set; } = Flags.None;
-
-    public List<string> Photos { get; set; } = new();
 
     public List<DishIngredient> Ingredients { get; set; } = new();
 

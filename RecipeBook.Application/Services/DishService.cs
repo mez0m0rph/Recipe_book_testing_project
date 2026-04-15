@@ -21,46 +21,46 @@ public class DishService : IDishService
         Flags? flags)
     {
         IQueryable<Dish> query = _context.Dishes
-            .Include(d => d.Ingredients);
+            .Include(x => x.Ingredients);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
             var lowered = search.Trim().ToLower();
-            query = query.Where(d => d.Name.ToLower().Contains(lowered));
+            query = query.Where(x => x.Name.ToLower().Contains(lowered));
         }
 
         if (category.HasValue)
         {
-            query = query.Where(d => d.Category == category.Value);
+            query = query.Where(x => x.Category == category.Value);
         }
 
         if (flags.HasValue && flags.Value != Flags.None)
         {
-            query = query.Where(d => (d.Flags & flags.Value) == flags.Value);
+            query = query.Where(x => (x.Flags & flags.Value) == flags.Value);
         }
 
         return await query
-            .OrderBy(d => d.Name)
+            .OrderBy(x => x.Name)
             .ToListAsync();
     }
 
     public async Task<Dish?> GetByIdAsync(Guid id)
     {
         return await _context.Dishes
-            .Include(d => d.Ingredients)
-            .FirstOrDefaultAsync(d => d.Id == id);
+            .Include(x => x.Ingredients)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Dish> CreateAsync(Dish dish)
     {
-        await ValidateDishAsync(dish);
-
         dish.Id = dish.Id == Guid.Empty ? Guid.NewGuid() : dish.Id;
         dish.CreatedAt = DateTime.UtcNow;
         dish.UpdatedAt = null;
+        dish.Photos ??= new List<string>();
 
-        ApplyCategoryFromName(dish, categoryWasExplicitlySet: true);
-        await RecalculateNutritionAndFlagsAsync(dish);
+        NormalizeCategoryByMacro(dish, explicitCategoryProvided: true);
+        await ValidateDishAsync(dish);
+        await RecalculateNutritionAndAllowedFlagsAsync(dish);
 
         _context.Dishes.Add(dish);
         await _context.SaveChangesAsync();
@@ -70,11 +70,9 @@ public class DishService : IDishService
 
     public async Task<Dish> UpdateAsync(Dish dish)
     {
-        await ValidateDishAsync(dish);
-
         var existing = await _context.Dishes
-            .Include(d => d.Ingredients)
-            .FirstOrDefaultAsync(d => d.Id == dish.Id);
+            .Include(x => x.Ingredients)
+            .FirstOrDefaultAsync(x => x.Id == dish.Id);
 
         if (existing == null)
         {
@@ -82,48 +80,45 @@ public class DishService : IDishService
         }
 
         existing.Name = dish.Name;
+        existing.Photos = dish.Photos ?? new List<string>();
         existing.PortionSize = dish.PortionSize;
         existing.Category = dish.Category;
-        existing.Photos = dish.Photos ?? new List<string>();
+        existing.Flags = dish.Flags;
 
         _context.DishIngredients.RemoveRange(existing.Ingredients);
 
-        existing.Ingredients = dish.Ingredients.Select(i => new DishIngredient
-        {
-            DishId = existing.Id,
-            ProductId = i.ProductId,
-            Amount = i.Amount
-        }).ToList();
+        existing.Ingredients = (dish.Ingredients ?? new List<DishIngredient>())
+            .Select(x => new DishIngredient
+            {
+                DishId = existing.Id,
+                ProductId = x.ProductId,
+                Amount = x.Amount
+            })
+            .ToList();
 
-        existing.Calories = dish.Calories;
-        existing.Proteins = dish.Proteins;
-        existing.Fats = dish.Fats;
-        existing.Carbs = dish.Carbs;
-        existing.Flags = dish.Flags;
+        NormalizeCategoryByMacro(existing, explicitCategoryProvided: true);
+        await ValidateDishAsync(existing);
+        await RecalculateNutritionAndAllowedFlagsAsync(existing);
+
         existing.UpdatedAt = DateTime.UtcNow;
 
-        ApplyCategoryFromName(existing, categoryWasExplicitlySet: true);
-        await RecalculateNutritionAndFlagsAsync(existing);
-
         await _context.SaveChangesAsync();
-
         return existing;
     }
 
     public async Task DeleteAsync(Guid id)
     {
-        var dish = await _context.Dishes
-            .Include(d => d.Ingredients)
-            .FirstOrDefaultAsync(d => d.Id == id);
+        var existing = await _context.Dishes
+            .Include(x => x.Ingredients)
+            .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (dish == null)
+        if (existing == null)
         {
             return;
         }
 
-        _context.DishIngredients.RemoveRange(dish.Ingredients);
-        _context.Dishes.Remove(dish);
-
+        _context.DishIngredients.RemoveRange(existing.Ingredients);
+        _context.Dishes.Remove(existing);
         await _context.SaveChangesAsync();
     }
 
@@ -139,125 +134,128 @@ public class DishService : IDishService
             throw new Exception("Размер порции должен быть больше 0.");
         }
 
-        if (dish.Ingredients == null || dish.Ingredients.Count == 0)
-        {
-            throw new Exception("У блюда должен быть хотя бы один ингредиент.");
-        }
-
-        if (dish.Ingredients.Any(i => i.Amount <= 0))
-        {
-            throw new Exception("Количество каждого продукта должно быть больше 0.");
-        }
-
         dish.Photos ??= new List<string>();
 
         if (dish.Photos.Count > 5)
         {
-            throw new Exception("Можно указать не более 5 фотографий блюда.");
+            throw new Exception("Фотографий может быть не более 5.");
         }
 
-        var productIds = dish.Ingredients.Select(i => i.ProductId).Distinct().ToList();
+        if (dish.Ingredients == null || dish.Ingredients.Count == 0)
+        {
+            throw new Exception("У блюда должен быть хотя бы один продукт в составе.");
+        }
+
+        if (dish.Ingredients.Any(x => x.Amount <= 0))
+        {
+            throw new Exception("Количество каждого продукта должно быть больше 0.");
+        }
+
+        var productIds = dish.Ingredients.Select(x => x.ProductId).Distinct().ToList();
 
         var existingProductIds = await _context.Products
-            .Where(p => productIds.Contains(p.Id))
-            .Select(p => p.Id)
+            .Where(x => productIds.Contains(x.Id))
+            .Select(x => x.Id)
             .ToListAsync();
 
-        var missingIds = productIds.Except(existingProductIds).ToList();
-
-        if (missingIds.Count > 0)
+        var missing = productIds.Except(existingProductIds).ToList();
+        if (missing.Count > 0)
         {
             throw new Exception("В составе блюда есть несуществующие продукты.");
         }
     }
 
-    private async Task RecalculateNutritionAndFlagsAsync(Dish dish)
+    private async Task RecalculateNutritionAndAllowedFlagsAsync(Dish dish)
     {
-        var productIds = dish.Ingredients.Select(i => i.ProductId).Distinct().ToList();
+        var productIds = dish.Ingredients.Select(x => x.ProductId).Distinct().ToList();
 
         var products = await _context.Products
-            .Where(p => productIds.Contains(p.Id))
+            .Where(x => productIds.Contains(x.Id))
             .ToListAsync();
 
-        double calculatedCalories = 0;
-        double calculatedProteins = 0;
-        double calculatedFats = 0;
-        double calculatedCarbs = 0;
+        double calories = 0;
+        double proteins = 0;
+        double fats = 0;
+        double carbs = 0;
 
-        bool veganAvailable = true;
-        bool glutenFreeAvailable = true;
-        bool sugarFreeAvailable = true;
+        bool veganAllowed = true;
+        bool glutenFreeAllowed = true;
+        bool sugarFreeAllowed = true;
 
         foreach (var ingredient in dish.Ingredients)
         {
-            var product = products.First(p => p.Id == ingredient.ProductId);
+            var product = products.First(x => x.Id == ingredient.ProductId);
 
-            calculatedCalories += product.Calories * ingredient.Amount / 100.0;
-            calculatedProteins += product.Proteins * ingredient.Amount / 100.0;
-            calculatedFats += product.Fats * ingredient.Amount / 100.0;
-            calculatedCarbs += product.Carbs * ingredient.Amount / 100.0;
+            calories += product.Calories * ingredient.Amount / 100.0;
+            proteins += product.Proteins * ingredient.Amount / 100.0;
+            fats += product.Fats * ingredient.Amount / 100.0;
+            carbs += product.Carbs * ingredient.Amount / 100.0;
 
             if (!product.Flags.HasFlag(Flags.Vegan))
             {
-                veganAvailable = false;
+                veganAllowed = false;
             }
 
             if (!product.Flags.HasFlag(Flags.GlutenFree))
             {
-                glutenFreeAvailable = false;
+                glutenFreeAllowed = false;
             }
 
             if (!product.Flags.HasFlag(Flags.SugarFree))
             {
-                sugarFreeAvailable = false;
+                sugarFreeAllowed = false;
             }
         }
 
-        dish.Calories = calculatedCalories;
-        dish.Proteins = calculatedProteins;
-        dish.Fats = calculatedFats;
-        dish.Carbs = calculatedCarbs;
+        dish.Calories = Math.Round(calories, 2);
+        dish.Proteins = Math.Round(proteins, 2);
+        dish.Fats = Math.Round(fats, 2);
+        dish.Carbs = Math.Round(carbs, 2);
 
-        var requestedFlags = dish.Flags;
+        if (dish.Proteins + dish.Fats + dish.Carbs > 100)
+        {
+            throw new Exception("Сумма БЖУ у блюда не может превышать 100.");
+        }
 
+        var requested = dish.Flags;
         dish.Flags = Flags.None;
 
-        if (veganAvailable && requestedFlags.HasFlag(Flags.Vegan))
+        if (veganAllowed && requested.HasFlag(Flags.Vegan))
         {
             dish.Flags |= Flags.Vegan;
         }
 
-        if (glutenFreeAvailable && requestedFlags.HasFlag(Flags.GlutenFree))
+        if (glutenFreeAllowed && requested.HasFlag(Flags.GlutenFree))
         {
             dish.Flags |= Flags.GlutenFree;
         }
 
-        if (sugarFreeAvailable && requestedFlags.HasFlag(Flags.SugarFree))
+        if (sugarFreeAllowed && requested.HasFlag(Flags.SugarFree))
         {
             dish.Flags |= Flags.SugarFree;
         }
     }
 
-    private static void ApplyCategoryFromName(Dish dish, bool categoryWasExplicitlySet)
+    private static void NormalizeCategoryByMacro(Dish dish, bool explicitCategoryProvided)
     {
         if (string.IsNullOrWhiteSpace(dish.Name))
         {
             return;
         }
 
-        var words = dish.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (words.Length == 0)
+        var words = dish.Name
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .ToList();
+
+        var firstMacroIndex = words.FindIndex(x => x.StartsWith("!"));
+        if (firstMacroIndex < 0)
         {
             return;
         }
 
-        var firstMacro = words.FirstOrDefault(w => w.StartsWith("!"));
-        if (firstMacro == null)
-        {
-            return;
-        }
+        var macro = words[firstMacroIndex].ToLowerInvariant();
 
-        var detectedCategory = firstMacro.ToLower() switch
+        DishCategory? macroCategory = macro switch
         {
             "!десерт" => DishCategory.Dessert,
             "!первое" => DishCategory.FirstCourse,
@@ -266,14 +264,15 @@ public class DishService : IDishService
             "!салат" => DishCategory.Salad,
             "!суп" => DishCategory.Soup,
             "!перекус" => DishCategory.Snack,
-            _ => (DishCategory?)null
+            _ => null
         };
 
-        dish.Name = string.Join(" ", words.Where(w => w != firstMacro)).Trim();
+        words.RemoveAt(firstMacroIndex);
+        dish.Name = string.Join(" ", words).Trim();
 
-        if (!categoryWasExplicitlySet && detectedCategory.HasValue)
+        if (!explicitCategoryProvided && macroCategory.HasValue)
         {
-            dish.Category = detectedCategory.Value;
+            dish.Category = macroCategory.Value;
         }
     }
 }
