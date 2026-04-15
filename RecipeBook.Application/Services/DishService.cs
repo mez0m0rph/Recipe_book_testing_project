@@ -212,9 +212,13 @@ public class DishService : IDishService
         dish.Fats = Math.Round(fats, 2);
         dish.Carbs = Math.Round(carbs, 2);
 
-        if (dish.Proteins + dish.Fats + dish.Carbs > 100)
+        var bjuPer100g = dish.PortionSize > 0
+            ? (dish.Proteins + dish.Fats + dish.Carbs) / dish.PortionSize * 100.0
+            : 0;
+
+        if (bjuPer100g > 100)
         {
-            throw new Exception("Сумма БЖУ у блюда не может превышать 100.");
+            throw new Exception("Сумма БЖУ на 100 грамм блюда не может превышать 100.");
         }
 
         var requested = dish.Flags;

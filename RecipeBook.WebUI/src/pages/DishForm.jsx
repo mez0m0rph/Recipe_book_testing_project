@@ -207,13 +207,13 @@ export default function DishForm() {
     useEffect(() => {
         setForm((prev) => ({
             ...prev,
-            flags: prev.flags.filter((flag) => draftNutrition.allowedFlags[flag]),
-            calories: prev.calories === "" ? draftNutrition.calories : prev.calories,
-            proteins: prev.proteins === "" ? draftNutrition.proteins : prev.proteins,
-            fats: prev.fats === "" ? draftNutrition.fats : prev.fats,
-            carbs: prev.carbs === "" ? draftNutrition.carbs : prev.carbs
+            flags: prev.flags.filter((flag) => draftNutrition.allowedFlags[flag])
         }));
-    }, [draftNutrition.calories, draftNutrition.proteins, draftNutrition.fats, draftNutrition.carbs, draftNutrition.allowedFlags.Vegan, draftNutrition.allowedFlags.GlutenFree, draftNutrition.allowedFlags.SugarFree]);
+    }, [
+        draftNutrition.allowedFlags.Vegan,
+        draftNutrition.allowedFlags.GlutenFree,
+        draftNutrition.allowedFlags.SugarFree
+    ]);
 
     const handleBaseChange = (e) => {
         const { name, value } = e.target;
@@ -279,10 +279,10 @@ export default function DishForm() {
     const resetDraftValues = () => {
         setForm((prev) => ({
             ...prev,
-            calories: draftNutrition.calories,
-            proteins: draftNutrition.proteins,
-            fats: draftNutrition.fats,
-            carbs: draftNutrition.carbs
+            calories: String(draftNutrition.calories),
+            proteins: String(draftNutrition.proteins),
+            fats: String(draftNutrition.fats),
+            carbs: String(draftNutrition.carbs)
         }));
     };
 
@@ -333,8 +333,13 @@ export default function DishForm() {
             return;
         }
 
-        if (payload.proteins + payload.fats + payload.carbs > 100) {
-            setError("Сумма БЖУ не может превышать 100.");
+        const bjuPer100g =
+            payload.portionSize > 0
+                ? ((payload.proteins + payload.fats + payload.carbs) / payload.portionSize) * 100
+                : 0;
+
+        if (bjuPer100g > 100) {
+            setError("Сумма БЖУ на 100 грамм блюда не может превышать 100.");
             return;
         }
 
@@ -374,7 +379,15 @@ export default function DishForm() {
                 <div style={field}>
                     <label>Размер порции, г</label>
                     <br />
-                    <input type="number" min="0.01" step="0.01" name="portionSize" value={form.portionSize} onChange={handleBaseChange} required />
+                    <input
+                        type="number"
+                        min="0.01"
+                        step="0.01"
+                        name="portionSize"
+                        value={form.portionSize}
+                        onChange={handleBaseChange}
+                        required
+                    />
                 </div>
 
                 <div style={field}>
@@ -410,7 +423,10 @@ export default function DishForm() {
                     <label>Состав блюда</label>
 
                     {form.ingredients.map((ingredient, index) => (
-                        <div key={index} style={{ display: "flex", gap: "8px", alignItems: "center", marginTop: "8px" }}>
+                        <div
+                            key={index}
+                            style={{ display: "flex", gap: "8px", alignItems: "center", marginTop: "8px" }}
+                        >
                             <select
                                 value={ingredient.productId}
                                 onChange={(e) => handleIngredientChange(index, "productId", e.target.value)}
@@ -459,25 +475,57 @@ export default function DishForm() {
                 <div style={field}>
                     <label>Калории (можно скорректировать вручную)</label>
                     <br />
-                    <input type="number" step="0.01" min="0" name="calories" value={form.calories} onChange={handleBaseChange} required />
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        name="calories"
+                        value={form.calories}
+                        onChange={handleBaseChange}
+                        required
+                    />
                 </div>
 
                 <div style={field}>
                     <label>Белки (можно скорректировать вручную)</label>
                     <br />
-                    <input type="number" step="0.01" min="0" name="proteins" value={form.proteins} onChange={handleBaseChange} required />
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        name="proteins"
+                        value={form.proteins}
+                        onChange={handleBaseChange}
+                        required
+                    />
                 </div>
 
                 <div style={field}>
                     <label>Жиры (можно скорректировать вручную)</label>
                     <br />
-                    <input type="number" step="0.01" min="0" name="fats" value={form.fats} onChange={handleBaseChange} required />
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        name="fats"
+                        value={form.fats}
+                        onChange={handleBaseChange}
+                        required
+                    />
                 </div>
 
                 <div style={field}>
                     <label>Углеводы (можно скорректировать вручную)</label>
                     <br />
-                    <input type="number" step="0.01" min="0" name="carbs" value={form.carbs} onChange={handleBaseChange} required />
+                    <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        name="carbs"
+                        value={form.carbs}
+                        onChange={handleBaseChange}
+                        required
+                    />
                 </div>
 
                 <button type="submit">Сохранить</button>
