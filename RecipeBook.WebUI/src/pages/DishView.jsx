@@ -50,6 +50,19 @@ export default function DishView() {
         <div>
             <h2>{dish.name}</h2>
 
+            {Array.isArray(dish.photos) && dish.photos.length > 0 && (
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: "16px" }}>
+                    {dish.photos.map((photo, index) => (
+                        <img
+                            key={index}
+                            src={photo}
+                            alt={`Фото блюда ${index + 1}`}
+                            style={{ width: "180px", height: "180px", objectFit: "cover" }}
+                        />
+                    ))}
+                </div>
+            )}
+
             <p><strong>Категория:</strong> {dish.category}</p>
             <p><strong>Размер порции:</strong> {dish.portionSize}</p>
             <p><strong>Калории:</strong> {dish.calories}</p>

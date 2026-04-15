@@ -42,6 +42,19 @@ export default function ProductView() {
         <div>
             <h2>{product.name}</h2>
 
+            {Array.isArray(product.photos) && product.photos.length > 0 && (
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: "16px" }}>
+                    {product.photos.map((photo, index) => (
+                        <img
+                            key={index}
+                            src={photo}
+                            alt={`Фото продукта ${index + 1}`}
+                            style={{ width: "180px", height: "180px", objectFit: "cover" }}
+                        />
+                    ))}
+                </div>
+            )}
+
             <p><strong>Категория:</strong> {product.category}</p>
             <p><strong>Необходимость готовки:</strong> {product.cookingType}</p>
             <p><strong>Калории:</strong> {product.calories}</p>

@@ -4,6 +4,22 @@ const api = axios.create({
     baseURL: "http://localhost:5116/api"
 });
 
+export const uploadFiles = async (files) => {
+    const formData = new FormData();
+
+    for (const file of files) {
+        formData.append("files", file);
+    }
+
+    const response = await api.post("/uploads", formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    });
+
+    return response.data;
+};
+
 export const getProducts = async (params = {}) => {
     const response = await api.get("/products", { params });
     return response.data;

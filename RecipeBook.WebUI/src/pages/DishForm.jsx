@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { createDish, getDish, getProducts, updateDish } from "../api/api";
+import { createDish, getDish, getProducts, updateDish, uploadFiles } from "../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 
 const categoryOptions = [
@@ -107,7 +107,9 @@ export default function DishForm() {
         carbs: ""
     });
 
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const [error, setError] = useState("");
+    const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
         getProducts()
@@ -250,16 +252,15 @@ export default function DishForm() {
         }));
     };
 
-    const handlePhotosChange = (e) => {
-        const items = e.target.value
-            .split("\n")
-            .map((x) => x.trim())
-            .filter(Boolean)
-            .slice(0, 5);
+    const handleFilesChange = (e) => {
+        const files = Array.from(e.target.files || []).slice(0, 5);
+        setSelectedFiles(files);
+    };
 
+    const removePhoto = (index) => {
         setForm((prev) => ({
             ...prev,
-            photos: items
+            photos: prev.photos.filter((_, i) => i !== index)
         }));
     };
 
@@ -289,61 +290,75 @@ export default function DishForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-
-        const cleanedIngredients = form.ingredients
-            .map((x) => ({
-                productId: x.productId,
-                amount: toNumber(x.amount)
-            }))
-            .filter((x) => x.productId && x.amount > 0);
-
-        const macroCategory = getMacroCategory(form.name);
-
-        const payload = {
-            id: form.id || undefined,
-            name: stripFirstMacro(form.name),
-            photos: form.photos,
-            calories: toNumber(form.calories),
-            proteins: toNumber(form.proteins),
-            fats: toNumber(form.fats),
-            carbs: toNumber(form.carbs),
-            portionSize: toNumber(form.portionSize),
-            category: form.category || macroCategory || "Snack",
-            flags: flagsToNumber(form.flags),
-            ingredients: cleanedIngredients
-        };
-
-        if (payload.name.length < 2) {
-            setError("Название блюда должно содержать минимум 2 символа.");
-            return;
-        }
-
-        if (payload.photos.length > 5) {
-            setError("Можно указать не более 5 фотографий.");
-            return;
-        }
-
-        if (payload.portionSize <= 0) {
-            setError("Размер порции должен быть больше 0.");
-            return;
-        }
-
-        if (payload.ingredients.length < 1) {
-            setError("Нужно добавить хотя бы один продукт в состав.");
-            return;
-        }
-
-        const bjuPer100g =
-            payload.portionSize > 0
-                ? ((payload.proteins + payload.fats + payload.carbs) / payload.portionSize) * 100
-                : 0;
-
-        if (bjuPer100g > 100) {
-            setError("Сумма БЖУ на 100 грамм блюда не может превышать 100.");
-            return;
-        }
+        setIsSaving(true);
 
         try {
+            let uploadedPhotoUrls = [];
+
+            if (selectedFiles.length > 0) {
+                uploadedPhotoUrls = await uploadFiles(selectedFiles);
+            }
+
+            const finalPhotos = [...form.photos, ...uploadedPhotoUrls].slice(0, 5);
+
+            const cleanedIngredients = form.ingredients
+                .map((x) => ({
+                    productId: x.productId,
+                    amount: toNumber(x.amount)
+                }))
+                .filter((x) => x.productId && x.amount > 0);
+
+            const macroCategory = getMacroCategory(form.name);
+
+            const payload = {
+                id: form.id || undefined,
+                name: stripFirstMacro(form.name),
+                photos: finalPhotos,
+                calories: toNumber(form.calories),
+                proteins: toNumber(form.proteins),
+                fats: toNumber(form.fats),
+                carbs: toNumber(form.carbs),
+                portionSize: toNumber(form.portionSize),
+                category: form.category || macroCategory || "Snack",
+                flags: flagsToNumber(form.flags),
+                ingredients: cleanedIngredients
+            };
+
+            if (payload.name.length < 2) {
+                setError("Название блюда должно содержать минимум 2 символа.");
+                setIsSaving(false);
+                return;
+            }
+
+            if (payload.photos.length > 5) {
+                setError("Можно указать не более 5 фотографий.");
+                setIsSaving(false);
+                return;
+            }
+
+            if (payload.portionSize <= 0) {
+                setError("Размер порции должен быть больше 0.");
+                setIsSaving(false);
+                return;
+            }
+
+            if (payload.ingredients.length < 1) {
+                setError("Нужно добавить хотя бы один продукт в состав.");
+                setIsSaving(false);
+                return;
+            }
+
+            const bjuPer100g =
+                payload.portionSize > 0
+                    ? ((payload.proteins + payload.fats + payload.carbs) / payload.portionSize) * 100
+                    : 0;
+
+            if (bjuPer100g > 100) {
+                setError("Сумма БЖУ на 100 грамм блюда не может превышать 100.");
+                setIsSaving(false);
+                return;
+            }
+
             if (id) {
                 await updateDish(id, payload);
             } else {
@@ -354,6 +369,8 @@ export default function DishForm() {
         } catch (err) {
             console.error(err);
             setError(err?.response?.data?.message || "Не удалось сохранить блюдо.");
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -371,10 +388,30 @@ export default function DishForm() {
                 </div>
 
                 <div style={field}>
-                    <label>Фотографии (по одной ссылке на строку, максимум 5)</label>
+                    <label>Фотографии (до 5 файлов)</label>
                     <br />
-                    <textarea rows="5" value={form.photos.join("\n")} onChange={handlePhotosChange} />
+                    <input type="file" accept="image/*" multiple onChange={handleFilesChange} />
                 </div>
+
+                {form.photos.length > 0 && (
+                    <div style={field}>
+                        <strong>Уже загруженные фото:</strong>
+                        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "8px" }}>
+                            {form.photos.map((photo, index) => (
+                                <div key={index}>
+                                    <img
+                                        src={photo}
+                                        alt={`Фото ${index + 1}`}
+                                        style={{ width: "120px", height: "120px", objectFit: "cover", display: "block" }}
+                                    />
+                                    <button type="button" onClick={() => removePhoto(index)} style={{ marginTop: "6px" }}>
+                                        Удалить
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 <div style={field}>
                     <label>Размер порции, г</label>
@@ -475,60 +512,30 @@ export default function DishForm() {
                 <div style={field}>
                     <label>Калории (можно скорректировать вручную)</label>
                     <br />
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        name="calories"
-                        value={form.calories}
-                        onChange={handleBaseChange}
-                        required
-                    />
+                    <input type="number" step="0.01" min="0" name="calories" value={form.calories} onChange={handleBaseChange} required />
                 </div>
 
                 <div style={field}>
                     <label>Белки (можно скорректировать вручную)</label>
                     <br />
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        name="proteins"
-                        value={form.proteins}
-                        onChange={handleBaseChange}
-                        required
-                    />
+                    <input type="number" step="0.01" min="0" name="proteins" value={form.proteins} onChange={handleBaseChange} required />
                 </div>
 
                 <div style={field}>
                     <label>Жиры (можно скорректировать вручную)</label>
                     <br />
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        name="fats"
-                        value={form.fats}
-                        onChange={handleBaseChange}
-                        required
-                    />
+                    <input type="number" step="0.01" min="0" name="fats" value={form.fats} onChange={handleBaseChange} required />
                 </div>
 
                 <div style={field}>
                     <label>Углеводы (можно скорректировать вручную)</label>
                     <br />
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        name="carbs"
-                        value={form.carbs}
-                        onChange={handleBaseChange}
-                        required
-                    />
+                    <input type="number" step="0.01" min="0" name="carbs" value={form.carbs} onChange={handleBaseChange} required />
                 </div>
 
-                <button type="submit">Сохранить</button>
+                <button type="submit" disabled={isSaving}>
+                    {isSaving ? "Сохранение..." : "Сохранить"}
+                </button>
             </form>
         </div>
     );

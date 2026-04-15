@@ -33,6 +33,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+var wwwrootPath = Path.Combine(app.Environment.ContentRootPath, "wwwroot");
+var uploadsPath = Path.Combine(wwwrootPath, "uploads");
+
+if (!Directory.Exists(wwwrootPath))
+{
+    Directory.CreateDirectory(wwwrootPath);
+}
+
+if (!Directory.Exists(uploadsPath))
+{
+    Directory.CreateDirectory(uploadsPath);
+}
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -43,7 +56,11 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseCors();
+
+app.UseStaticFiles();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

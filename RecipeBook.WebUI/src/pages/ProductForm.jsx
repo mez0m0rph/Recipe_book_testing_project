@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createProduct, getProduct, updateProduct } from "../api/api";
+import { createProduct, getProduct, updateProduct, uploadFiles } from "../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 
 const categoryOptions = [
@@ -79,7 +79,9 @@ export default function ProductForm() {
         flags: []
     });
 
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const [error, setError] = useState("");
+    const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
         if (!id) {
@@ -122,50 +124,64 @@ export default function ProductForm() {
         }));
     };
 
-    const handlePhotosChange = (e) => {
-        const items = e.target.value
-            .split("\n")
-            .map((x) => x.trim())
-            .filter(Boolean)
-            .slice(0, 5);
+    const handleFilesChange = (e) => {
+        const files = Array.from(e.target.files || []).slice(0, 5);
+        setSelectedFiles(files);
+    };
 
-        setForm((prev) => ({ ...prev, photos: items }));
+    const removePhoto = (index) => {
+        setForm((prev) => ({
+            ...prev,
+            photos: prev.photos.filter((_, i) => i !== index)
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-
-        const payload = {
-            id: form.id || undefined,
-            name: form.name.trim(),
-            photos: form.photos,
-            calories: toNumber(form.calories),
-            proteins: toNumber(form.proteins),
-            fats: toNumber(form.fats),
-            carbs: toNumber(form.carbs),
-            composition: form.composition?.trim() || null,
-            category: form.category,
-            cookingType: form.cookingType,
-            flags: flagsToNumber(form.flags)
-        };
-
-        if (payload.name.length < 2) {
-            setError("Название продукта должно содержать минимум 2 символа.");
-            return;
-        }
-
-        if (payload.photos.length > 5) {
-            setError("Можно указать не более 5 фотографий.");
-            return;
-        }
-
-        if (payload.proteins + payload.fats + payload.carbs > 100) {
-            setError("Сумма БЖУ не может превышать 100.");
-            return;
-        }
+        setIsSaving(true);
 
         try {
+            let uploadedPhotoUrls = [];
+
+            if (selectedFiles.length > 0) {
+                uploadedPhotoUrls = await uploadFiles(selectedFiles);
+            }
+
+            const finalPhotos = [...form.photos, ...uploadedPhotoUrls].slice(0, 5);
+
+            const payload = {
+                id: form.id || undefined,
+                name: form.name.trim(),
+                photos: finalPhotos,
+                calories: toNumber(form.calories),
+                proteins: toNumber(form.proteins),
+                fats: toNumber(form.fats),
+                carbs: toNumber(form.carbs),
+                composition: form.composition?.trim() || null,
+                category: form.category,
+                cookingType: form.cookingType,
+                flags: flagsToNumber(form.flags)
+            };
+
+            if (payload.name.length < 2) {
+                setError("Название продукта должно содержать минимум 2 символа.");
+                setIsSaving(false);
+                return;
+            }
+
+            if (payload.photos.length > 5) {
+                setError("Можно указать не более 5 фотографий.");
+                setIsSaving(false);
+                return;
+            }
+
+            if (payload.proteins + payload.fats + payload.carbs > 100) {
+                setError("Сумма БЖУ не может превышать 100.");
+                setIsSaving(false);
+                return;
+            }
+
             if (id) {
                 await updateProduct(id, payload);
             } else {
@@ -176,6 +192,8 @@ export default function ProductForm() {
         } catch (err) {
             console.error(err);
             setError(err?.response?.data?.message || "Не удалось сохранить продукт.");
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -193,14 +211,30 @@ export default function ProductForm() {
                 </div>
 
                 <div style={field}>
-                    <label>Фотографии (по одной ссылке на строку, максимум 5)</label>
+                    <label>Фотографии (до 5 файлов)</label>
                     <br />
-                    <textarea
-                        rows="5"
-                        value={form.photos.join("\n")}
-                        onChange={handlePhotosChange}
-                    />
+                    <input type="file" accept="image/*" multiple onChange={handleFilesChange} />
                 </div>
+
+                {form.photos.length > 0 && (
+                    <div style={field}>
+                        <strong>Уже загруженные фото:</strong>
+                        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "8px" }}>
+                            {form.photos.map((photo, index) => (
+                                <div key={index}>
+                                    <img
+                                        src={photo}
+                                        alt={`Фото ${index + 1}`}
+                                        style={{ width: "120px", height: "120px", objectFit: "cover", display: "block" }}
+                                    />
+                                    <button type="button" onClick={() => removePhoto(index)} style={{ marginTop: "6px" }}>
+                                        Удалить
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 <div style={field}>
                     <label>Калорийность</label>
@@ -272,7 +306,9 @@ export default function ProductForm() {
                     ))}
                 </div>
 
-                <button type="submit">Сохранить</button>
+                <button type="submit" disabled={isSaving}>
+                    {isSaving ? "Сохранение..." : "Сохранить"}
+                </button>
             </form>
         </div>
     );
