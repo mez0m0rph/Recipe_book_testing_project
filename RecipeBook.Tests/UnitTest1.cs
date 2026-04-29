@@ -44,8 +44,8 @@ public class DishCaloriesCalculationTests
     /// - несколько ингредиентов
     /// </summary>
     [Theory]
-    [InlineData(100, 0, 0)]
-    [InlineData(100, 100, 100)]
+    [InlineData(100, 0, 0)]  // калорийность, кол-во, ожид. результат
+    [InlineData(100, 100, 100)] 
     [InlineData(250, 100, 250)]
     [InlineData(250, 50, 125)]
     [InlineData(123.4, 25, 30.85)]

@@ -1,26 +1,14 @@
 import { useEffect, useState } from "react";
 import { deleteProduct, getProducts } from "../api/api";
 import { Link } from "react-router-dom";
-
-const categoryOptions = [
-    { value: "", label: "Все" },
-    { value: "Frozen", label: "Замороженный" },
-    { value: "Meat", label: "Мясной" },
-    { value: "Vegetables", label: "Овощи" },
-    { value: "Greens", label: "Зелень" },
-    { value: "Spices", label: "Специи" },
-    { value: "Grains", label: "Крупы" },
-    { value: "Canned", label: "Консервы" },
-    { value: "Liquid", label: "Жидкость" },
-    { value: "Sweets", label: "Сладости" }
-];
-
-const cookingTypeOptions = [
-    { value: "", label: "Все" },
-    { value: "ReadyToEat", label: "Готовый к употреблению" },
-    { value: "SemiFinished", label: "Полуфабрикат" },
-    { value: "RequiresCooking", label: "Требует приготовления" }
-];
+import {
+    cookingTypeOptions,
+    flagOptions,
+    getCookingTypeLabel,
+    getFlagsLabel,
+    getProductCategoryLabel,
+    productCategoryOptions
+} from "../utils/formatters";
 
 const sortOptions = [
     { value: "name", label: "Название" },
@@ -30,14 +18,8 @@ const sortOptions = [
     { value: "carbs", label: "Углеводы" }
 ];
 
-const flagOptions = [
-    { bit: 1, label: "Веган" },
-    { bit: 2, label: "Без глютена" },
-    { bit: 4, label: "Без сахара" }
-];
-
-function flagsToNumber(flags) {
-    return flags.reduce((acc, item) => acc + item, 0);
+function flagsToFilterNumber(flags) {
+    return flags.reduce((sum, bit) => sum + bit, 0);
 }
 
 export default function Products() {
@@ -60,9 +42,9 @@ export default function Products() {
                 sortBy: filters.sortBy || undefined
             };
 
-            const flagValue = flagsToNumber(filters.flags);
-            if (flagValue > 0) {
-                params.flags = flagValue;
+            const flags = flagsToFilterNumber(filters.flags);
+            if (flags > 0) {
+                params.flags = flags;
             }
 
             const data = await getProducts(params);
@@ -77,6 +59,15 @@ export default function Products() {
         fetchProducts();
     }, [filters]);
 
+    const toggleFlag = (bit) => {
+        setFilters((prev) => ({
+            ...prev,
+            flags: prev.flags.includes(bit)
+                ? prev.flags.filter((x) => x !== bit)
+                : [...prev.flags, bit]
+        }));
+    };
+
     const handleDelete = async (id) => {
         try {
             await deleteProduct(id);
@@ -85,15 +76,6 @@ export default function Products() {
             console.error(err);
             alert(err?.response?.data?.message || "Не удалось удалить продукт.");
         }
-    };
-
-    const toggleFlag = (bit) => {
-        setFilters((prev) => ({
-            ...prev,
-            flags: prev.flags.includes(bit)
-                ? prev.flags.filter((x) => x !== bit)
-                : [...prev.flags, bit]
-        }));
     };
 
     return (
@@ -114,9 +96,10 @@ export default function Products() {
                     value={filters.category}
                     onChange={(e) => setFilters((prev) => ({ ...prev, category: e.target.value }))}
                 >
-                    {categoryOptions.map((x) => (
-                        <option key={x.value} value={x.value}>
-                            {x.label}
+                    <option value="">Все категории</option>
+                    {productCategoryOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
                         </option>
                     ))}
                 </select>
@@ -125,9 +108,10 @@ export default function Products() {
                     value={filters.cookingType}
                     onChange={(e) => setFilters((prev) => ({ ...prev, cookingType: e.target.value }))}
                 >
-                    {cookingTypeOptions.map((x) => (
-                        <option key={x.value} value={x.value}>
-                            {x.label}
+                    <option value="">Любая готовность</option>
+                    {cookingTypeOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
                         </option>
                     ))}
                 </select>
@@ -136,16 +120,16 @@ export default function Products() {
                     value={filters.sortBy}
                     onChange={(e) => setFilters((prev) => ({ ...prev, sortBy: e.target.value }))}
                 >
-                    {sortOptions.map((x) => (
-                        <option key={x.value} value={x.value}>
-                            {x.label}
+                    {sortOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            Сортировка: {option.label}
                         </option>
                     ))}
                 </select>
 
                 <div>
                     {flagOptions.map((flag) => (
-                        <label key={flag.bit} style={{ marginRight: "12px" }}>
+                        <label key={flag.value} style={{ marginRight: "12px" }}>
                             <input
                                 type="checkbox"
                                 checked={filters.flags.includes(flag.bit)}
@@ -167,7 +151,8 @@ export default function Products() {
                         <tr>
                             <th style={th}>Название</th>
                             <th style={th}>Категория</th>
-                            <th style={th}>Готовка</th>
+                            <th style={th}>Готовность</th>
+                            <th style={th}>Флаги</th>
                             <th style={th}>Ккал</th>
                             <th style={th}>Б</th>
                             <th style={th}>Ж</th>
@@ -176,21 +161,26 @@ export default function Products() {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((x) => (
-                            <tr key={x.id}>
-                                <td style={td}>{x.name}</td>
-                                <td style={td}>{x.category}</td>
-                                <td style={td}>{x.cookingType}</td>
-                                <td style={td}>{x.calories}</td>
-                                <td style={td}>{x.proteins}</td>
-                                <td style={td}>{x.fats}</td>
-                                <td style={td}>{x.carbs}</td>
+                        {products.map((product) => (
+                            <tr key={product.id}>
+                                <td style={td}>{product.name}</td>
+                                <td style={td}>{getProductCategoryLabel(product.category)}</td>
+                                <td style={td}>{getCookingTypeLabel(product.cookingType)}</td>
+                                <td style={td}>{getFlagsLabel(product.flags)}</td>
+                                <td style={td}>{product.calories}</td>
+                                <td style={td}>{product.proteins}</td>
+                                <td style={td}>{product.fats}</td>
+                                <td style={td}>{product.carbs}</td>
                                 <td style={td}>
-                                    <Link to={`/products/${x.id}`}>Открыть</Link>
-                                    <Link to={`/products/edit/${x.id}`} style={{ marginLeft: "10px" }}>
+                                    <Link to={`/products/${product.id}`}>Открыть</Link>
+                                    <Link to={`/products/edit/${product.id}`} style={{ marginLeft: "10px" }}>
                                         Редактировать
                                     </Link>
-                                    <button type="button" onClick={() => handleDelete(x.id)} style={{ marginLeft: "10px" }}>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDelete(product.id)}
+                                        style={{ marginLeft: "10px" }}
+                                    >
                                         Удалить
                                     </button>
                                 </td>

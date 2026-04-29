@@ -1,20 +1,10 @@
 import { useEffect, useState } from "react";
 import { getDish, getProducts } from "../api/api";
 import { Link, useParams } from "react-router-dom";
-
-function formatDate(value) {
-    if (!value) {
-        return "—";
-    }
-
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) {
-        return String(value);
-    }
-
-    return date.toLocaleString("ru-RU");
-}
+import {
+    getDishCategoryLabel,
+    getFlagsLabel
+} from "../utils/formatters";
 
 export default function DishView() {
     const { id } = useParams();
@@ -43,7 +33,7 @@ export default function DishView() {
     }
 
     const resolveProductName = (productId) => {
-        return products.find((x) => x.id === productId)?.name || productId;
+        return products.find((product) => product.id === productId)?.name || productId;
     };
 
     return (
@@ -54,7 +44,7 @@ export default function DishView() {
                 <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: "16px" }}>
                     {dish.photos.map((photo, index) => (
                         <img
-                            key={index}
+                            key={photo}
                             src={photo}
                             alt={`Фото блюда ${index + 1}`}
                             style={{ width: "180px", height: "180px", objectFit: "cover" }}
@@ -63,21 +53,19 @@ export default function DishView() {
                 </div>
             )}
 
-            <p><strong>Категория:</strong> {dish.category}</p>
-            <p><strong>Размер порции:</strong> {dish.portionSize}</p>
-            <p><strong>Калории:</strong> {dish.calories}</p>
-            <p><strong>Белки:</strong> {dish.proteins}</p>
-            <p><strong>Жиры:</strong> {dish.fats}</p>
-            <p><strong>Углеводы:</strong> {dish.carbs}</p>
-            <p><strong>Флаги:</strong> {String(dish.flags)}</p>
-            <p><strong>Дата создания:</strong> {formatDate(dish.createdAt)}</p>
-            <p><strong>Дата редактирования:</strong> {formatDate(dish.updatedAt)}</p>
+            <p><strong>Категория:</strong> {getDishCategoryLabel(dish.category)}</p>
+            <p><strong>Размер порции:</strong> {dish.portionSize} г</p>
+            <p><strong>Калорийность:</strong> {dish.calories} ккал / порция</p>
+            <p><strong>Белки:</strong> {dish.proteins} г / порция</p>
+            <p><strong>Жиры:</strong> {dish.fats} г / порция</p>
+            <p><strong>Углеводы:</strong> {dish.carbs} г / порция</p>
+            <p><strong>Флаги:</strong> {getFlagsLabel(dish.flags)}</p>
 
             <h3>Состав</h3>
             <ul>
-                {(dish.ingredients || []).map((x, index) => (
+                {(dish.ingredients || []).map((ingredient, index) => (
                     <li key={index}>
-                        {resolveProductName(x.productId)} — {x.amount} г
+                        {resolveProductName(ingredient.productId)} — {ingredient.amount} г
                     </li>
                 ))}
             </ul>

@@ -1,65 +1,15 @@
 import { useEffect, useState } from "react";
 import { createProduct, getProduct, updateProduct, uploadFiles } from "../api/api";
 import { useNavigate, useParams } from "react-router-dom";
-
-const categoryOptions = [
-    { value: "Frozen", label: "Замороженный" },
-    { value: "Meat", label: "Мясной" },
-    { value: "Vegetables", label: "Овощи" },
-    { value: "Greens", label: "Зелень" },
-    { value: "Spices", label: "Специи" },
-    { value: "Grains", label: "Крупы" },
-    { value: "Canned", label: "Консервы" },
-    { value: "Liquid", label: "Жидкость" },
-    { value: "Sweets", label: "Сладости" }
-];
-
-const cookingTypeOptions = [
-    { value: "ReadyToEat", label: "Готовый к употреблению" },
-    { value: "SemiFinished", label: "Полуфабрикат" },
-    { value: "RequiresCooking", label: "Требует приготовления" }
-];
-
-const flagOptions = [
-    { value: "Vegan", label: "Веган", bit: 1 },
-    { value: "GlutenFree", label: "Без глютена", bit: 2 },
-    { value: "SugarFree", label: "Без сахара", bit: 4 }
-];
-
-function flagsToArray(flags) {
-    if (typeof flags === "number") {
-        return flagOptions.filter((f) => (flags & f.bit) === f.bit).map((f) => f.value);
-    }
-
-    if (typeof flags === "string") {
-        if (!flags || flags === "None") {
-            return [];
-        }
-
-        return flags.split(",").map((x) => x.trim()).filter(Boolean);
-    }
-
-    return [];
-}
-
-function flagsToNumber(flagsArray) {
-    return flagOptions.reduce((acc, flag) => {
-        if (flagsArray.includes(flag.value)) {
-            return acc + flag.bit;
-        }
-
-        return acc;
-    }, 0);
-}
-
-function toNumber(value) {
-    if (value === "" || value === null || value === undefined) {
-        return 0;
-    }
-
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? 0 : parsed;
-}
+import {
+    cookingTypeOptions,
+    flagOptions,
+    flagsToArray,
+    flagsToNumber,
+    getFlagsLabel,
+    productCategoryOptions,
+    toNumber
+} from "../utils/formatters";
 
 export default function ProductForm() {
     const { id } = useParams();
@@ -112,7 +62,32 @@ export default function ProductForm() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
+
+        setForm((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleFilesChange = (e) => {
+        const files = Array.from(e.target.files || []);
+        const availableSlots = Math.max(0, 5 - form.photos.length - selectedFiles.length);
+        const filesToAdd = files.slice(0, availableSlots);
+
+        setSelectedFiles((prev) => [...prev, ...filesToAdd]);
+
+        e.target.value = "";
+    };
+
+    const removeSelectedFile = (index) => {
+        setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const removeUploadedPhoto = (index) => {
+        setForm((prev) => ({
+            ...prev,
+            photos: prev.photos.filter((_, i) => i !== index)
+        }));
     };
 
     const handleFlagChange = (flagValue, checked) => {
@@ -121,18 +96,6 @@ export default function ProductForm() {
             flags: checked
                 ? [...prev.flags, flagValue]
                 : prev.flags.filter((x) => x !== flagValue)
-        }));
-    };
-
-    const handleFilesChange = (e) => {
-        const files = Array.from(e.target.files || []).slice(0, 5);
-        setSelectedFiles(files);
-    };
-
-    const removePhoto = (index) => {
-        setForm((prev) => ({
-            ...prev,
-            photos: prev.photos.filter((_, i) => i !== index)
         }));
     };
 
@@ -166,19 +129,16 @@ export default function ProductForm() {
 
             if (payload.name.length < 2) {
                 setError("Название продукта должно содержать минимум 2 символа.");
-                setIsSaving(false);
                 return;
             }
 
             if (payload.photos.length > 5) {
                 setError("Можно указать не более 5 фотографий.");
-                setIsSaving(false);
                 return;
             }
 
             if (payload.proteins + payload.fats + payload.carbs > 100) {
                 setError("Сумма БЖУ не может превышать 100.");
-                setIsSaving(false);
                 return;
             }
 
@@ -211,23 +171,52 @@ export default function ProductForm() {
                 </div>
 
                 <div style={field}>
-                    <label>Фотографии (до 5 файлов)</label>
+                    <label>Фотографии продукта, максимум 5</label>
                     <br />
-                    <input type="file" accept="image/*" multiple onChange={handleFilesChange} />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFilesChange}
+                        disabled={form.photos.length + selectedFiles.length >= 5}
+                    />
+                    <div style={{ marginTop: "6px" }}>
+                        Выбрано и загружено: {form.photos.length + selectedFiles.length} / 5
+                    </div>
                 </div>
+
+                {selectedFiles.length > 0 && (
+                    <div style={field}>
+                        <strong>Выбранные файлы:</strong>
+                        <ul>
+                            {selectedFiles.map((file, index) => (
+                                <li key={`${file.name}-${index}`}>
+                                    {file.name}
+                                    <button
+                                        type="button"
+                                        onClick={() => removeSelectedFile(index)}
+                                        style={{ marginLeft: "8px" }}
+                                    >
+                                        Убрать
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
                 {form.photos.length > 0 && (
                     <div style={field}>
-                        <strong>Уже загруженные фото:</strong>
+                        <strong>Загруженные фото:</strong>
                         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "8px" }}>
                             {form.photos.map((photo, index) => (
-                                <div key={index}>
+                                <div key={photo}>
                                     <img
                                         src={photo}
-                                        alt={`Фото ${index + 1}`}
+                                        alt={`Фото продукта ${index + 1}`}
                                         style={{ width: "120px", height: "120px", objectFit: "cover", display: "block" }}
                                     />
-                                    <button type="button" onClick={() => removePhoto(index)} style={{ marginTop: "6px" }}>
+                                    <button type="button" onClick={() => removeUploadedPhoto(index)} style={{ marginTop: "6px" }}>
                                         Удалить
                                     </button>
                                 </div>
@@ -237,25 +226,25 @@ export default function ProductForm() {
                 )}
 
                 <div style={field}>
-                    <label>Калорийность</label>
+                    <label>Калорийность, ккал / 100 г</label>
                     <br />
                     <input type="number" step="0.01" min="0" name="calories" value={form.calories} onChange={handleChange} required />
                 </div>
 
                 <div style={field}>
-                    <label>Белки</label>
+                    <label>Белки, г / 100 г</label>
                     <br />
                     <input type="number" step="0.01" min="0" max="100" name="proteins" value={form.proteins} onChange={handleChange} required />
                 </div>
 
                 <div style={field}>
-                    <label>Жиры</label>
+                    <label>Жиры, г / 100 г</label>
                     <br />
                     <input type="number" step="0.01" min="0" max="100" name="fats" value={form.fats} onChange={handleChange} required />
                 </div>
 
                 <div style={field}>
-                    <label>Углеводы</label>
+                    <label>Углеводы, г / 100 г</label>
                     <br />
                     <input type="number" step="0.01" min="0" max="100" name="carbs" value={form.carbs} onChange={handleChange} required />
                 </div>
@@ -270,9 +259,9 @@ export default function ProductForm() {
                     <label>Категория</label>
                     <br />
                     <select name="category" value={form.category} onChange={handleChange}>
-                        {categoryOptions.map((x) => (
-                            <option key={x.value} value={x.value}>
-                                {x.label}
+                        {productCategoryOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
                             </option>
                         ))}
                     </select>
@@ -282,16 +271,16 @@ export default function ProductForm() {
                     <label>Необходимость готовки</label>
                     <br />
                     <select name="cookingType" value={form.cookingType} onChange={handleChange}>
-                        {cookingTypeOptions.map((x) => (
-                            <option key={x.value} value={x.value}>
-                                {x.label}
+                        {cookingTypeOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
                             </option>
                         ))}
                     </select>
                 </div>
 
                 <div style={field}>
-                    <label>Флаги</label>
+                    <label>Дополнительные флаги</label>
                     {flagOptions.map((flag) => (
                         <div key={flag.value}>
                             <label>
@@ -304,6 +293,9 @@ export default function ProductForm() {
                             </label>
                         </div>
                     ))}
+                    <div style={{ marginTop: "6px" }}>
+                        Текущие флаги: {getFlagsLabel(flagsToNumber(form.flags))}
+                    </div>
                 </div>
 
                 <button type="submit" disabled={isSaving}>
