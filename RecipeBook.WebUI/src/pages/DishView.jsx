@@ -6,6 +6,20 @@ import {
     getFlagsLabel
 } from "../utils/formatters";
 
+function formatDate(value) {
+    if (!value) {
+        return "—";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "—";
+    }
+
+    return date.toLocaleString("ru-RU");
+}
+
 export default function DishView() {
     const { id } = useParams();
     const [dish, setDish] = useState(null);
@@ -60,6 +74,8 @@ export default function DishView() {
             <p><strong>Жиры:</strong> {dish.fats} г / порция</p>
             <p><strong>Углеводы:</strong> {dish.carbs} г / порция</p>
             <p><strong>Флаги:</strong> {getFlagsLabel(dish.flags)}</p>
+            <p><strong>Дата создания:</strong> {formatDate(dish.createdAt)}</p>
+            <p><strong>Дата изменения:</strong> {formatDate(dish.updatedAt)}</p>
 
             <h3>Состав</h3>
             <ul>

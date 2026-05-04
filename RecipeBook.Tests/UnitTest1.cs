@@ -44,8 +44,8 @@ public class DishCaloriesCalculationTests
     /// - несколько ингредиентов
     /// </summary>
     [Theory]
-    [InlineData(100, 0, 0)]  // калорийность, кол-во, ожид. результат
-    [InlineData(100, 100, 100)] 
+    [InlineData(100, 0, 0)]
+    [InlineData(100, 100, 100)]
     [InlineData(250, 100, 250)]
     [InlineData(250, 50, 125)]
     [InlineData(123.4, 25, 30.85)]
@@ -191,6 +191,76 @@ public class DishCaloriesCalculationTests
 
         // Assert
         Assert.Equal(expectedCalories, result, precision: 2);
+    }
+
+    /// <summary>
+    /// Негативный сценарий:
+    /// если количество продукта в составе отрицательное,
+    /// расчёт должен завершиться ошибкой.
+    /// </summary>
+    [Fact]
+    public void CalculateCaloriesPerPortion_ShouldThrowArgumentOutOfRangeException_WhenIngredientAmountIsNegative()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+
+        var products = new List<Product>
+        {
+            CreateProduct(productId, 100)
+        };
+
+        var ingredients = new List<DishIngredient>
+        {
+            new DishIngredient
+            {
+                ProductId = productId,
+                Amount = -1
+            }
+        };
+
+        // Act
+        Action action = () =>
+        {
+            DishNutritionCalculator.CalculateCaloriesPerPortion(ingredients, products);
+        };
+
+        // Assert
+        Assert.Throws<ArgumentOutOfRangeException>(action);
+    }
+
+    /// <summary>
+    /// Негативный сценарий:
+    /// если калорийность продукта отрицательная,
+    /// расчёт должен завершиться ошибкой.
+    /// </summary>
+    [Fact]
+    public void CalculateCaloriesPerPortion_ShouldThrowArgumentOutOfRangeException_WhenProductCaloriesIsNegative()
+    {
+        // Arrange
+        var productId = Guid.NewGuid();
+
+        var products = new List<Product>
+        {
+            CreateProduct(productId, -1)
+        };
+
+        var ingredients = new List<DishIngredient>
+        {
+            new DishIngredient
+            {
+                ProductId = productId,
+                Amount = 100
+            }
+        };
+
+        // Act
+        Action action = () =>
+        {
+            DishNutritionCalculator.CalculateCaloriesPerPortion(ingredients, products);
+        };
+
+        // Assert
+        Assert.Throws<ArgumentOutOfRangeException>(action);
     }
 
     /// <summary>

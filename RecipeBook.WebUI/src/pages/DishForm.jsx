@@ -51,6 +51,8 @@ export default function DishForm() {
     const navigate = useNavigate();
 
     const [products, setProducts] = useState([]);
+    const [categoryWasChangedManually, setCategoryWasChangedManually] = useState(false);
+
     const [form, setForm] = useState({
         id: "",
         name: "",
@@ -106,6 +108,8 @@ export default function DishForm() {
                     fats: data.fats ?? "",
                     carbs: data.carbs ?? ""
                 });
+
+                setCategoryWasChangedManually(true);
             })
             .catch((err) => {
                 console.error(err);
@@ -119,7 +123,9 @@ export default function DishForm() {
         let fats = 0;
         let carbs = 0;
 
-        const filledIngredients = form.ingredients.filter((ingredient) => ingredient.productId && toNumber(ingredient.amount) > 0);
+        const filledIngredients = form.ingredients.filter(
+            (ingredient) => ingredient.productId && toNumber(ingredient.amount) > 0
+        );
 
         let veganAllowed = filledIngredients.length > 0;
         let glutenFreeAllowed = filledIngredients.length > 0;
@@ -185,6 +191,25 @@ export default function DishForm() {
 
     const handleBaseChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === "name") {
+            const macroCategory = getMacroCategory(value);
+
+            setForm((prev) => ({
+                ...prev,
+                name: value,
+                category:
+                    !categoryWasChangedManually && macroCategory
+                        ? macroCategory
+                        : prev.category
+            }));
+
+            return;
+        }
+
+        if (name === "category") {
+            setCategoryWasChangedManually(true);
+        }
 
         setForm((prev) => ({
             ...prev,
@@ -278,8 +303,6 @@ export default function DishForm() {
                 }))
                 .filter((ingredient) => ingredient.productId && ingredient.amount > 0);
 
-            const macroCategory = getMacroCategory(form.name);
-
             const payload = {
                 id: form.id || undefined,
                 name: stripFirstMacro(form.name),
@@ -289,7 +312,7 @@ export default function DishForm() {
                 fats: toNumber(form.fats),
                 carbs: toNumber(form.carbs),
                 portionSize: toNumber(form.portionSize),
-                category: form.category || macroCategory || "Snack",
+                category: form.category,
                 flags: flagsToNumber(form.flags),
                 ingredients: cleanedIngredients
             };
@@ -349,7 +372,13 @@ export default function DishForm() {
                 <div style={field}>
                     <label>Название</label>
                     <br />
-                    <input name="name" value={form.name} onChange={handleBaseChange} required />
+                    <input
+                        name="name"
+                        value={form.name}
+                        onChange={handleBaseChange}
+                        placeholder="Например: !суп Борщ"
+                        required
+                    />
                 </div>
 
                 <div style={field}>
@@ -431,6 +460,9 @@ export default function DishForm() {
                             </option>
                         ))}
                     </select>
+                    <div style={{ marginTop: "6px", color: "#666" }}>
+                        Если категория выбрана вручную, она имеет приоритет над макросом в названии.
+                    </div>
                 </div>
 
                 <div style={field}>

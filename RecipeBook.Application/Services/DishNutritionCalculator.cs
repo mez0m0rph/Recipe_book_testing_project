@@ -28,11 +28,24 @@ public static class DishNutritionCalculator
             throw new ArgumentNullException(nameof(products));
         }
 
-        var productMap = products.ToDictionary(x => x.Id);
+        var ingredientsList = ingredients.ToList();
+        var productsList = products.ToList();
+
+        if (ingredientsList.Any(x => x.Amount < 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(ingredients), "Количество продукта не может быть отрицательным.");
+        }
+
+        if (productsList.Any(x => x.Calories < 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(products), "Калорийность продукта не может быть отрицательной.");
+        }
+
+        var productMap = productsList.ToDictionary(x => x.Id);
 
         double calories = 0;
 
-        foreach (var ingredient in ingredients)
+        foreach (var ingredient in ingredientsList)
         {
             if (!productMap.TryGetValue(ingredient.ProductId, out var product))
             {
@@ -63,11 +76,24 @@ public static class DishNutritionCalculator
             throw new ArgumentNullException(nameof(products));
         }
 
-        var productMap = products.ToDictionary(x => x.Id);
+        var ingredientsList = ingredients.ToList();
+        var productsList = products.ToList();
+
+        if (ingredientsList.Any(x => x.Amount < 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(ingredients), "Количество продукта не может быть отрицательным.");
+        }
+
+        if (productsList.Any(x => x.Proteins < 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(products), "Количество белков не может быть отрицательным.");
+        }
+
+        var productMap = productsList.ToDictionary(x => x.Id);
 
         double proteins = 0;
 
-        foreach (var ingredient in ingredients)
+        foreach (var ingredient in ingredientsList)
         {
             if (!productMap.TryGetValue(ingredient.ProductId, out var product))
             {
@@ -98,11 +124,24 @@ public static class DishNutritionCalculator
             throw new ArgumentNullException(nameof(products));
         }
 
-        var productMap = products.ToDictionary(x => x.Id);
+        var ingredientsList = ingredients.ToList();
+        var productsList = products.ToList();
+
+        if (ingredientsList.Any(x => x.Amount < 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(ingredients), "Количество продукта не может быть отрицательным.");
+        }
+
+        if (productsList.Any(x => x.Fats < 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(products), "Количество жиров не может быть отрицательным.");
+        }
+
+        var productMap = productsList.ToDictionary(x => x.Id);
 
         double fats = 0;
 
-        foreach (var ingredient in ingredients)
+        foreach (var ingredient in ingredientsList)
         {
             if (!productMap.TryGetValue(ingredient.ProductId, out var product))
             {
@@ -133,11 +172,24 @@ public static class DishNutritionCalculator
             throw new ArgumentNullException(nameof(products));
         }
 
-        var productMap = products.ToDictionary(x => x.Id);
+        var ingredientsList = ingredients.ToList();
+        var productsList = products.ToList();
+
+        if (ingredientsList.Any(x => x.Amount < 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(ingredients), "Количество продукта не может быть отрицательным.");
+        }
+
+        if (productsList.Any(x => x.Carbs < 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(products), "Количество углеводов не может быть отрицательным.");
+        }
+
+        var productMap = productsList.ToDictionary(x => x.Id);
 
         double carbs = 0;
 
-        foreach (var ingredient in ingredients)
+        foreach (var ingredient in ingredientsList)
         {
             if (!productMap.TryGetValue(ingredient.ProductId, out var product))
             {
