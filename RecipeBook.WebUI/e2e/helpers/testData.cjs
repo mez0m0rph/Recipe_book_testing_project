@@ -22,6 +22,5 @@ function createTwoTestImages() {
 
 module.exports = {
     uniqueName,
-    createTestImageFile,
     createTwoTestImages
 };

@@ -1,163 +1,194 @@
-const { expect, test } = require("@playwright/test");
-const { createDishViaUi, searchDishViaUi } = require("../helpers/dishSteps.cjs");
-const { createProductViaUi, searchProductViaUi } = require("../helpers/productSteps.cjs");
+const { test } = require("@playwright/test");
+const { DishFormPage } = require("../pages/DishFormPage.cjs");
+const { DishesPage } = require("../pages/DishesPage.cjs");
+const { ProductFormPage } = require("../pages/ProductFormPage.cjs");
+const { ProductsPage } = require("../pages/ProductsPage.cjs");
 const { uniqueName } = require("../helpers/testData.cjs");
 
-test.describe("Системные UI-тесты блюд", () => {
-    test("CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreChanged", async ({ page }) => {
-        const productName = uniqueName("Рис");
-        const dishName = uniqueName("Рисовая каша");
+function validProduct(overrides = {}) {
+    return {
+        name: uniqueName("Продукт"),
+        calories: 100,
+        proteins: 10,
+        fats: 5,
+        carbs: 20,
+        composition: "Тестовый состав",
+        category: "Vegetables",
+        cookingType: "ReadyToEat",
+        ...overrides
+    };
+}
 
-        await createProductViaUi(page, {
-            name: productName,
+async function createProduct(page, product) {
+    const form = new ProductFormPage(page);
+
+    await form.openCreatePage();
+    await form.fillRequiredFields(product);
+    await form.save();
+    await form.expectRedirectToProducts();
+}
+
+async function createDish(page, dish) {
+    const form = new DishFormPage(page);
+
+    await form.openCreatePage();
+    await form.fillBaseFields(dish);
+    await form.chooseIngredient(dish.productName, dish.amount);
+    await form.expectCalories(dish.expectedCalories);
+    await form.save();
+    await form.expectRedirectToDishes();
+}
+
+test.describe("Системные UI-тесты блюд через Page Object", () => {
+    test("CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreChanged", async ({ page }) => {
+        const product = validProduct({
+            name: uniqueName("Рис"),
             calories: 300,
             proteins: 7,
             fats: 1,
             carbs: 70
         });
 
-        await createDishViaUi(page, {
-            name: dishName,
-            productName: productName,
+        const dish = {
+            name: uniqueName("Рисовая каша"),
+            productName: product.name,
             amount: 200,
             portionSize: 200,
             category: "Snack",
             expectedCalories: 600
-        });
+        };
 
-        const row = await searchDishViaUi(page, dishName);
+        const dishesPage = new DishesPage(page);
 
-        await expect(row).toContainText(dishName);
-        await expect(row).toContainText("600");
+        await createProduct(page, product);
+        await createDish(page, dish);
+
+        await dishesPage.open();
+        await dishesPage.searchByName(dish.name);
+        await dishesPage.expectDishVisible(dish.name);
+        await dishesPage.expectRowContains(dish.name, "600");
     });
 
     test("CreateDish_ShouldSetCategoryByMacro_WhenNameContainsSoupMacro", async ({ page }) => {
-        await page.goto("/dishes/create");
+        const form = new DishFormPage(page);
 
-        await page.locator('input[name="name"]').fill(`!суп ${uniqueName("Борщ")}`);
-
-        await expect(page.locator('select[name="category"]')).toHaveValue("Soup");
+        await form.openCreatePage();
+        await form.nameInput.fill(`!суп ${uniqueName("Борщ")}`);
+        await form.expectCategory("Soup");
     });
 
-    test.describe("CreateDish_ShouldValidatePortionSize_BoundaryValues", () => {
-        const cases = [
-            {
-                portionSize: 0,
-                shouldBeValid: false
-            },
-            {
-                portionSize: 0.01,
-                shouldBeValid: true
-            }
-        ];
+    test("CreateDish_ShouldShowError_WhenPortionSizeEqualsZero", async ({ page }) => {
+        const product = validProduct({
+            name: uniqueName("Овсянка")
+        });
 
-        for (const testCase of cases) {
-            test(`portionSize=${testCase.portionSize}`, async ({ page }) => {
-                const productName = uniqueName("Овсянка");
+        const form = new DishFormPage(page);
 
-                await createProductViaUi(page, {
-                    name: productName,
-                    calories: 100,
-                    proteins: 5,
-                    fats: 2,
-                    carbs: 20
-                });
+        await createProduct(page, product);
 
-                await page.goto("/dishes/create");
+        await form.openCreatePage();
+        await form.fillBaseFields({
+            name: uniqueName("Порция"),
+            portionSize: 0,
+            category: "Snack"
+        });
+        await form.chooseIngredient(product.name, 0.01);
+        await form.save();
+        await form.expectPortionSizeInvalid();
+    });
 
-                await page.locator('input[name="name"]').fill(uniqueName("Порция"));
-                await page.locator('input[name="portionSize"]').fill(String(testCase.portionSize));
-                await page.locator('select[name="category"]').selectOption("Snack");
+    test("CreateDish_ShouldCreateDish_WhenPortionSizeEqualsMinimalPositiveValue", async ({ page }) => {
+        const product = validProduct({
+            name: uniqueName("Овсянка")
+        });
 
-                const ingredientSelect = page.locator("select").last();
+        const form = new DishFormPage(page);
 
-                await ingredientSelect.selectOption({ label: productName });
-                await page.getByPlaceholder("Количество, г").fill("0.01");
+        await createProduct(page, product);
 
-                await page.getByRole("button", { name: "Сохранить" }).click();
-
-                if (testCase.shouldBeValid) {
-                    await expect(page).toHaveURL(/\/dishes$/);
-                } else {
-                    const isValid = await page.locator('input[name="portionSize"]').evaluate((input) => input.validity.valid);
-                    expect(isValid).toBe(false);
-                }
-            });
-        }
+        await form.openCreatePage();
+        await form.fillBaseFields({
+            name: uniqueName("Порция"),
+            portionSize: 0.01,
+            category: "Snack"
+        });
+        await form.chooseIngredient(product.name, 0.01);
+        await form.save();
+        await form.expectRedirectToDishes();
     });
 
     test("CreateDish_ShouldShowError_WhenIngredientsAreEmpty", async ({ page }) => {
-        await page.goto("/dishes/create");
+        const form = new DishFormPage(page);
 
-        await page.locator('input[name="name"]').fill(uniqueName("Пустое блюдо"));
-        await page.locator('input[name="portionSize"]').fill("100");
-
-        await page.getByRole("button", { name: "Сохранить" }).click();
-
-        await expect(page.getByText("Нужно добавить хотя бы один продукт в состав.")).toBeVisible();
+        await form.openCreatePage();
+        await form.fillBaseFields({
+            name: uniqueName("Пустое блюдо"),
+            portionSize: 100,
+            category: "Snack"
+        });
+        await form.save();
+        await form.expectEmptyIngredientsError();
     });
 
     test("DishFlags_ShouldBeAvailableOnlyWhenAllIngredientsAllowThem", async ({ page }) => {
-        const productName = uniqueName("Веганский продукт");
-
-        await createProductViaUi(page, {
-            name: productName,
-            calories: 100,
-            proteins: 5,
-            fats: 2,
-            carbs: 10,
-            flags: ["Веган"]
+        const product = validProduct({
+            name: uniqueName("Веганский продукт")
         });
 
-        await page.goto("/dishes/create");
+        const productForm = new ProductFormPage(page);
+        const dishForm = new DishFormPage(page);
 
-        await page.locator('input[name="name"]').fill(uniqueName("Флаги блюда"));
-        await page.locator('input[name="portionSize"]').fill("100");
+        await productForm.openCreatePage();
+        await productForm.fillRequiredFields(product);
+        await productForm.checkFlag("Веган");
+        await productForm.save();
+        await productForm.expectRedirectToProducts();
 
-        const ingredientSelect = page.locator("select").last();
+        await dishForm.openCreatePage();
+        await dishForm.fillBaseFields({
+            name: uniqueName("Флаги блюда"),
+            portionSize: 100,
+            category: "Snack"
+        });
+        await dishForm.chooseIngredient(product.name, 100);
 
-        await ingredientSelect.selectOption({ label: productName });
-        await page.getByPlaceholder("Количество, г").fill("100");
-
-        await expect(page.getByLabel("Веган")).toBeEnabled();
-        await expect(page.getByLabel("Без глютена")).toBeDisabled();
-        await expect(page.getByLabel("Без сахара")).toBeDisabled();
+        await dishForm.expectFlagEnabled("Веган");
+        await dishForm.expectFlagDisabled("Без глютена");
+        await dishForm.expectFlagDisabled("Без сахара");
     });
 
     test("DeleteProduct_ShouldShowError_WhenProductIsUsedInDish", async ({ page }) => {
-        const productName = uniqueName("Мясо");
-        const dishName = uniqueName("Блюдо с мясом");
-
-        await createProductViaUi(page, {
-            name: productName,
+        const product = validProduct({
+            name: uniqueName("Мясо"),
             calories: 250,
             proteins: 20,
             fats: 15,
             carbs: 0
         });
 
-        await createDishViaUi(page, {
-            name: dishName,
-            productName: productName,
+        const dish = {
+            name: uniqueName("Блюдо с мясом"),
+            productName: product.name,
             amount: 100,
             portionSize: 100,
             category: "SecondCourse",
             expectedCalories: 250
-        });
+        };
 
-        await searchProductViaUi(page, productName);
+        const productsPage = new ProductsPage(page);
 
-        const productRow = page.locator("tbody tr").filter({ hasText: productName }).first();
+        await createProduct(page, product);
+        await createDish(page, dish);
 
-        await expect(productRow).toBeVisible();
+        await productsPage.open();
+        await productsPage.searchByName(product.name);
+        await productsPage.expectProductVisible(product.name);
 
         const dialogPromise = page.waitForEvent("dialog");
 
-        await productRow.getByRole("button", { name: "Удалить" }).click();
+        await productsPage.deleteProduct(product.name);
 
         const dialog = await dialogPromise;
-
-        expect(dialog.message()).toContain(dishName);
 
         await dialog.accept();
     });

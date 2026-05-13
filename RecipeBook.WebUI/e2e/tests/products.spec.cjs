@@ -1,137 +1,165 @@
-const { expect, test } = require("@playwright/test");
-const { createProductViaUi, openProductFromList, searchProductViaUi } = require("../helpers/productSteps.cjs");
+const { test } = require("@playwright/test");
+const { ProductFormPage } = require("../pages/ProductFormPage.cjs");
+const { ProductDetailsPage } = require("../pages/ProductDetailsPage.cjs");
+const { ProductsPage } = require("../pages/ProductsPage.cjs");
 const { createTwoTestImages, uniqueName } = require("../helpers/testData.cjs");
 
-test.describe("Системные UI-тесты продуктов", () => {
-    test("CreateProduct_ShouldCreateProduct_WhenDataIsValid", async ({ page }) => {
-        const productName = uniqueName("Картофель");
+function validProduct(overrides = {}) {
+    return {
+        name: uniqueName("Продукт"),
+        calories: 100,
+        proteins: 10,
+        fats: 5,
+        carbs: 20,
+        composition: "Тестовый состав",
+        category: "Vegetables",
+        cookingType: "ReadyToEat",
+        ...overrides
+    };
+}
 
-        await createProductViaUi(page, {
-            name: productName,
+async function createProduct(page, product) {
+    const form = new ProductFormPage(page);
+
+    await form.openCreatePage();
+    await form.fillRequiredFields(product);
+    await form.save();
+    await form.expectRedirectToProducts();
+}
+
+test.describe("Системные UI-тесты продуктов через Page Object", () => {
+    test("CreateProduct_ShouldCreateProduct_WhenDataIsValid", async ({ page }) => {
+        const product = validProduct({
+            name: uniqueName("Картофель"),
             calories: 77,
             proteins: 2,
             fats: 0.4,
             carbs: 17
         });
 
-        await searchProductViaUi(page, productName);
+        const productsPage = new ProductsPage(page);
+
+        await createProduct(page, product);
+        await productsPage.open();
+        await productsPage.searchByName(product.name);
+        await productsPage.expectProductVisible(product.name);
     });
 
-    test.describe("CreateProduct_ShouldValidateNameLength_BoundaryValues", () => {
-        const cases = [
-            {
-                name: "A",
-                shouldBeValid: false
-            },
-            {
-                name: "AB",
-                shouldBeValid: true
-            }
-        ];
+    test("CreateProduct_ShouldShowError_WhenNameHasOneCharacter", async ({ page }) => {
+        const product = validProduct({
+            name: "A"
+        });
 
-        for (const testCase of cases) {
-            test(`name="${testCase.name}"`, async ({ page }) => {
-                await page.goto("/products/create");
+        const form = new ProductFormPage(page);
 
-                await page.locator('input[name="name"]').fill(testCase.name);
-                await page.locator('input[name="calories"]').fill("100");
-                await page.locator('input[name="proteins"]').fill("10");
-                await page.locator('input[name="fats"]').fill("5");
-                await page.locator('input[name="carbs"]').fill("20");
-                await page.locator('select[name="category"]').selectOption("Vegetables");
-                await page.locator('select[name="cookingType"]').selectOption("ReadyToEat");
-
-                await page.getByRole("button", { name: "Сохранить" }).click();
-
-                if (testCase.shouldBeValid) {
-                    await expect(page).toHaveURL(/\/products$/);
-                } else {
-                    await expect(page.getByText("Название продукта должно содержать минимум 2 символа.")).toBeVisible();
-                }
-            });
-        }
+        await form.openCreatePage();
+        await form.fillRequiredFields(product);
+        await form.save();
+        await form.expectNameValidationError();
     });
 
-    test.describe("CreateProduct_ShouldValidatePfcSum_BoundaryValues", () => {
-        const cases = [
-            {
-                proteins: 40,
-                fats: 30,
-                carbs: 30,
-                shouldBeValid: true
-            },
-            {
-                proteins: 40,
-                fats: 30,
-                carbs: 30.01,
-                shouldBeValid: false
-            }
-        ];
+    test("CreateProduct_ShouldCreateProduct_WhenNameHasTwoCharacters", async ({ page }) => {
+        const product = validProduct({
+            name: "AB"
+        });
 
-        for (const testCase of cases) {
-            test(`proteins=${testCase.proteins}, fats=${testCase.fats}, carbs=${testCase.carbs}`, async ({ page }) => {
-                await page.goto("/products/create");
+        const form = new ProductFormPage(page);
 
-                await page.locator('input[name="name"]').fill(uniqueName("БЖУ"));
-                await page.locator('input[name="calories"]').fill("100");
-                await page.locator('input[name="proteins"]').fill(String(testCase.proteins));
-                await page.locator('input[name="fats"]').fill(String(testCase.fats));
-                await page.locator('input[name="carbs"]').fill(String(testCase.carbs));
-                await page.locator('select[name="category"]').selectOption("Vegetables");
-                await page.locator('select[name="cookingType"]').selectOption("ReadyToEat");
+        await form.openCreatePage();
+        await form.fillRequiredFields(product);
+        await form.save();
+        await form.expectRedirectToProducts();
+    });
 
-                await page.getByRole("button", { name: "Сохранить" }).click();
+    test("CreateProduct_ShouldCreateProduct_WhenPfcSumEquals100", async ({ page }) => {
+        const product = validProduct({
+            proteins: 40,
+            fats: 30,
+            carbs: 30
+        });
 
-                if (testCase.shouldBeValid) {
-                    await expect(page).toHaveURL(/\/products$/);
-                } else {
-                    await expect(page.getByText("Сумма БЖУ не может превышать 100.")).toBeVisible();
-                }
-            });
-        }
+        const form = new ProductFormPage(page);
+
+        await form.openCreatePage();
+        await form.fillRequiredFields(product);
+        await form.save();
+        await form.expectRedirectToProducts();
+    });
+
+    test("CreateProduct_ShouldShowError_WhenPfcSumGreaterThan100", async ({ page }) => {
+        const product = validProduct({
+            proteins: 40,
+            fats: 30,
+            carbs: 30.01
+        });
+
+        const form = new ProductFormPage(page);
+
+        await form.openCreatePage();
+        await form.fillRequiredFields(product);
+        await form.save();
+        await form.expectPfcValidationError();
     });
 
     test("GetProducts_ShouldSearchProductBySubstringIgnoringCase", async ({ page }) => {
-        const productName = uniqueName("Свёкла");
-
-        await createProductViaUi(page, {
-            name: productName
+        const product = validProduct({
+            name: uniqueName("Свёкла")
         });
 
-        await page.goto("/products");
-        await page.getByPlaceholder("Поиск по названию").fill("свёк");
+        const productsPage = new ProductsPage(page);
 
-        await expect(page.locator("tbody")).toContainText("Свёкла");
+        await createProduct(page, product);
+        await productsPage.open();
+        await productsPage.searchByName("свёк");
+        await productsPage.expectTableContainsText("Свёкла");
     });
 
     test("ProductList_ShouldDisplayRussianLabels_ForCategoryCookingTypeAndFlags", async ({ page }) => {
-        const productName = uniqueName("Вода");
-
-        await createProductViaUi(page, {
-            name: productName,
+        const product = validProduct({
+            name: uniqueName("Вода"),
             category: "Liquid",
-            cookingType: "ReadyToEat",
-            flags: ["Без сахара"]
+            cookingType: "ReadyToEat"
         });
 
-        const row = await searchProductViaUi(page, productName);
+        const form = new ProductFormPage(page);
+        const productsPage = new ProductsPage(page);
 
-        await expect(row).toContainText("Жидкость");
-        await expect(row).toContainText("Готовый к употреблению");
-        await expect(row).toContainText("Без сахара");
+        await form.openCreatePage();
+        await form.fillRequiredFields(product);
+        await form.checkFlag("Без сахара");
+        await form.save();
+        await form.expectRedirectToProducts();
+
+        await productsPage.open();
+        await productsPage.searchByName(product.name);
+        await productsPage.expectRowContains(product.name, "Жидкость");
+        await productsPage.expectRowContains(product.name, "Готовый к употреблению");
+        await productsPage.expectRowContains(product.name, "Без сахара");
     });
 
     test("CreateProduct_ShouldUploadMultiplePhotos_AndShowThemInProductCard", async ({ page }) => {
-        const productName = uniqueName("Фото-продукт");
-        const photos = createTwoTestImages();
-
-        await createProductViaUi(page, {
-            name: productName,
-            photos: photos
+        const product = validProduct({
+            name: uniqueName("Фото-продукт")
         });
 
-        await openProductFromList(page, productName);
+        const photos = createTwoTestImages();
 
-        await expect(page.locator('img[alt^="Фото продукта"]')).toHaveCount(2);
+        const form = new ProductFormPage(page);
+        const productsPage = new ProductsPage(page);
+        const productDetailsPage = new ProductDetailsPage(page);
+
+        await form.openCreatePage();
+        await form.fillRequiredFields(product);
+        await form.uploadPhotos(photos);
+        await form.expectUploadedPhotosCount(2);
+        await form.save();
+        await form.expectRedirectToProducts();
+
+        await productsPage.open();
+        await productsPage.searchByName(product.name);
+        await productsPage.openProduct(product.name);
+
+        await productDetailsPage.expectTitleContains(product.name);
+        await productDetailsPage.expectProductImagesCount(2);
     });
 });
