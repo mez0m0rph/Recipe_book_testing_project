@@ -7,22 +7,28 @@ namespace RecipeBook.Tests;
 
 /// <summary>
 /// Интеграционные/API-тесты backend'а.
-/// 
-/// Проверяется не отдельная функция, а работа цепочки:
-/// HTTP-запрос -> Controller -> Service -> DbContext -> тестовая база данных -> HTTP-ответ.
-/// 
+///
+/// Тесты отправляют реальные HTTP-запросы в уже запущенный backend:
+/// http://localhost:5116
+///
+/// Проверяется цепочка:
+/// HTTP-запрос -> Controller -> Service -> DbContext -> PostgreSQL -> HTTP-ответ.
+///
 /// В тестах используются техники:
 /// 1. Эквивалентное разбиение
 /// 2. Анализ граничных значений
 /// </summary>
-public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
+public class ApiIntegrationTests
 {
     private readonly HttpClient _client;
     private readonly JsonSerializerOptions _jsonOptions;
 
-    public ApiIntegrationTests(CustomWebApplicationFactory factory)
+    public ApiIntegrationTests()
     {
-        _client = factory.CreateClient();
+        _client = new HttpClient
+        {
+            BaseAddress = new Uri("http://localhost:5116")
+        };
 
         _jsonOptions = new JsonSerializerOptions
         {
@@ -39,23 +45,20 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task CreateProduct_ShouldReturnOk_WhenProductIsValid()
     {
-        // Arrange
         var product = CreateValidProductPayload(
-            name: "Картофель",
+            name: $"Картофель-{Guid.NewGuid()}",
             proteins: 2,
             fats: 0.4,
             carbs: 17
         );
 
-        // Act
         var response = await _client.PostAsJsonAsync("/api/products", product);
 
-        // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var body = await response.Content.ReadFromJsonAsync<JsonElement>(_jsonOptions);
 
-        Assert.Equal("Картофель", body.GetProperty("name").GetString());
+        Assert.Contains("Картофель", body.GetProperty("name").GetString());
         Assert.True(body.GetProperty("id").GetGuid() != Guid.Empty);
     }
 
@@ -71,13 +74,10 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
         string name,
         HttpStatusCode expectedStatusCode)
     {
-        // Arrange
         var product = CreateValidProductPayload(name: name);
 
-        // Act
         var response = await _client.PostAsJsonAsync("/api/products", product);
 
-        // Assert
         Assert.Equal(expectedStatusCode, response.StatusCode);
     }
 
@@ -95,7 +95,6 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
         double carbs,
         HttpStatusCode expectedStatusCode)
     {
-        // Arrange
         var product = CreateValidProductPayload(
             name: $"Продукт-{Guid.NewGuid()}",
             proteins: proteins,
@@ -103,10 +102,8 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
             carbs: carbs
         );
 
-        // Act
         var response = await _client.PostAsJsonAsync("/api/products", product);
 
-        // Assert
         Assert.Equal(expectedStatusCode, response.StatusCode);
     }
 
@@ -117,7 +114,6 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task GetProducts_ShouldReturnCreatedProduct()
     {
-        // Arrange
         var productName = $"Морковь-{Guid.NewGuid()}";
 
         var product = CreateValidProductPayload(
@@ -130,10 +126,8 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
         var createResponse = await _client.PostAsJsonAsync("/api/products", product);
         createResponse.EnsureSuccessStatusCode();
 
-        // Act
         var getResponse = await _client.GetAsync("/api/products");
 
-        // Assert
         getResponse.EnsureSuccessStatusCode();
 
         var body = await getResponse.Content.ReadAsStringAsync();
@@ -148,7 +142,6 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task GetProducts_ShouldSearchByNameSubstringIgnoringCase()
     {
-        // Arrange
         var productName = $"Свёкла-{Guid.NewGuid()}";
 
         var product = CreateValidProductPayload(name: productName);
@@ -156,15 +149,65 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
         var createResponse = await _client.PostAsJsonAsync("/api/products", product);
         createResponse.EnsureSuccessStatusCode();
 
-        // Act
         var response = await _client.GetAsync("/api/products?search=свёк");
 
-        // Assert
         response.EnsureSuccessStatusCode();
 
         var body = await response.Content.ReadAsStringAsync();
 
         Assert.Contains("Свёкла", body);
+    }
+
+    /// <summary>
+    /// Негативный API-сценарий:
+    /// запрос продукта по несуществующему id должен возвращать клиентскую ошибку.
+    /// </summary>
+    [Fact]
+    public async Task GetProductById_ShouldReturnClientError_WhenProductDoesNotExist()
+    {
+        var missingId = Guid.NewGuid();
+
+        var response = await _client.GetAsync($"/api/products/{missingId}");
+
+        AssertClientError(response.StatusCode);
+    }
+
+    /// <summary>
+    /// Негативный API-сценарий:
+    /// редактирование несуществующего продукта должно возвращать клиентскую ошибку.
+    /// </summary>
+    [Fact]
+    public async Task UpdateProduct_ShouldReturnClientError_WhenProductDoesNotExist()
+    {
+        var missingId = Guid.NewGuid();
+
+        var product = CreateValidProductPayload(
+            name: "Несуществующий продукт",
+            proteins: 1,
+            fats: 1,
+            carbs: 1
+        );
+
+        var response = await _client.PutAsJsonAsync($"/api/products/{missingId}", product);
+
+        AssertClientError(response.StatusCode);
+    }
+
+    /// <summary>
+    /// Негативный API-сценарий:
+    /// удаление несуществующего продукта не должно возвращать серверную ошибку.
+    /// </summary>
+    [Fact]
+    public async Task DeleteProduct_ShouldNotReturnServerError_WhenProductDoesNotExist()
+    {
+        var missingId = Guid.NewGuid();
+
+        var response = await _client.DeleteAsync($"/api/products/{missingId}");
+
+        Assert.True(
+            IsSuccess(response.StatusCode) || IsClientError(response.StatusCode),
+            $"Expected success or client error, but got {(int)response.StatusCode} {response.StatusCode}."
+        );
     }
 
     /// <summary>
@@ -175,7 +218,6 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreValid()
     {
-        // Arrange
         var productId = await CreateProductAndReturnIdAsync(
             name: $"Рис-{Guid.NewGuid()}",
             calories: 300,
@@ -186,7 +228,7 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
 
         var dish = new
         {
-            name = "Рисовая каша",
+            name = $"Рисовая каша-{Guid.NewGuid()}",
             photos = Array.Empty<string>(),
             calories = 0,
             proteins = 0,
@@ -205,15 +247,12 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
             }
         };
 
-        // Act
         var response = await _client.PostAsJsonAsync("/api/dishes", dish);
 
-        // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var body = await response.Content.ReadFromJsonAsync<JsonElement>(_jsonOptions);
 
-        // 300 ккал / 100 г * 200 г / 100 = 600 ккал
         Assert.Equal(600, body.GetProperty("calories").GetDouble(), precision: 2);
     }
 
@@ -229,7 +268,6 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
         double portionSize,
         HttpStatusCode expectedStatusCode)
     {
-        // Arrange
         var productId = await CreateProductAndReturnIdAsync(
             name: $"Овсянка-{Guid.NewGuid()}",
             calories: 100,
@@ -259,10 +297,8 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
             }
         };
 
-        // Act
         var response = await _client.PostAsJsonAsync("/api/dishes", dish);
 
-        // Assert
         Assert.Equal(expectedStatusCode, response.StatusCode);
     }
 
@@ -273,10 +309,9 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task CreateDish_ShouldReturnBadRequest_WhenIngredientsAreEmpty()
     {
-        // Arrange
         var dish = new
         {
-            name = "Пустое блюдо",
+            name = $"Пустое блюдо-{Guid.NewGuid()}",
             photos = Array.Empty<string>(),
             calories = 0,
             proteins = 0,
@@ -288,11 +323,151 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
             ingredients = Array.Empty<object>()
         };
 
-        // Act
         var response = await _client.PostAsJsonAsync("/api/dishes", dish);
 
-        // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    /// <summary>
+    /// Негативный интеграционный сценарий:
+    /// блюдо нельзя создать, если в составе указан несуществующий продукт.
+    /// </summary>
+    [Fact]
+    public async Task CreateDish_ShouldReturnBadRequest_WhenIngredientProductDoesNotExist()
+    {
+        var dish = new
+        {
+            name = $"Блюдо с несуществующим продуктом-{Guid.NewGuid()}",
+            photos = Array.Empty<string>(),
+            calories = 0,
+            proteins = 0,
+            fats = 0,
+            carbs = 0,
+            portionSize = 100,
+            category = "Snack",
+            flags = 0,
+            ingredients = new[]
+            {
+                new
+                {
+                    productId = Guid.NewGuid(),
+                    amount = 100
+                }
+            }
+        };
+
+        var response = await _client.PostAsJsonAsync("/api/dishes", dish);
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    /// <summary>
+    /// Негативный API-сценарий:
+    /// запрос блюда по несуществующему id должен возвращать клиентскую ошибку.
+    /// </summary>
+    [Fact]
+    public async Task GetDishById_ShouldReturnClientError_WhenDishDoesNotExist()
+    {
+        var missingId = Guid.NewGuid();
+
+        var response = await _client.GetAsync($"/api/dishes/{missingId}");
+
+        AssertClientError(response.StatusCode);
+    }
+
+    /// <summary>
+    /// Негативный API-сценарий:
+    /// редактирование несуществующего блюда должно возвращать клиентскую ошибку.
+    /// </summary>
+    [Fact]
+    public async Task UpdateDish_ShouldReturnClientError_WhenDishDoesNotExist()
+    {
+        var missingDishId = Guid.NewGuid();
+
+        var productId = await CreateProductAndReturnIdAsync(
+            name: $"Гречка-{Guid.NewGuid()}",
+            calories: 120,
+            proteins: 4,
+            fats: 1,
+            carbs: 25
+        );
+
+        var dish = new
+        {
+            id = missingDishId,
+            name = "Несуществующее блюдо",
+            photos = Array.Empty<string>(),
+            calories = 0,
+            proteins = 0,
+            fats = 0,
+            carbs = 0,
+            portionSize = 100,
+            category = "Snack",
+            flags = 0,
+            ingredients = new[]
+            {
+                new
+                {
+                    productId = productId,
+                    amount = 100
+                }
+            }
+        };
+
+        var response = await _client.PutAsJsonAsync($"/api/dishes/{missingDishId}", dish);
+
+        AssertClientError(response.StatusCode);
+    }
+
+    /// <summary>
+    /// Функциональное требование:
+    /// продукт, который используется хотя бы в одном блюде,
+    /// нельзя удалить через API.
+    /// </summary>
+    [Fact]
+    public async Task DeleteProduct_ShouldReturnBadRequest_WhenProductIsUsedInDish()
+    {
+        var productId = await CreateProductAndReturnIdAsync(
+            name: $"Мясо-{Guid.NewGuid()}",
+            calories: 250,
+            proteins: 20,
+            fats: 15,
+            carbs: 0
+        );
+
+        var dishName = $"Блюдо с мясом-{Guid.NewGuid()}";
+
+        var dish = new
+        {
+            name = dishName,
+            photos = Array.Empty<string>(),
+            calories = 0,
+            proteins = 0,
+            fats = 0,
+            carbs = 0,
+            portionSize = 100,
+            category = "SecondCourse",
+            flags = 0,
+            ingredients = new[]
+            {
+                new
+                {
+                    productId = productId,
+                    amount = 100
+                }
+            }
+        };
+
+        var createDishResponse = await _client.PostAsJsonAsync("/api/dishes", dish);
+        createDishResponse.EnsureSuccessStatusCode();
+
+        var deleteProductResponse = await _client.DeleteAsync($"/api/products/{productId}");
+
+        Assert.Equal(HttpStatusCode.BadRequest, deleteProductResponse.StatusCode);
+
+        var body = await deleteProductResponse.Content.ReadAsStringAsync();
+
+        Assert.Contains(dishName, body);
     }
 
     private static object CreateValidProductPayload(
@@ -338,5 +513,25 @@ public class ApiIntegrationTests : IClassFixture<CustomWebApplicationFactory>
         var body = await response.Content.ReadFromJsonAsync<JsonElement>(_jsonOptions);
 
         return body.GetProperty("id").GetGuid();
+    }
+
+    private static void AssertClientError(HttpStatusCode statusCode)
+    {
+        Assert.True(
+            IsClientError(statusCode),
+            $"Expected client error, but got {(int)statusCode} {statusCode}."
+        );
+    }
+
+    private static bool IsClientError(HttpStatusCode statusCode)
+    {
+        var code = (int)statusCode;
+        return code >= 400 && code <= 499;
+    }
+
+    private static bool IsSuccess(HttpStatusCode statusCode)
+    {
+        var code = (int)statusCode;
+        return code >= 200 && code <= 299;
     }
 }

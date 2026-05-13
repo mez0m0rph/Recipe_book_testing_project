@@ -1,0 +1,955 @@
+﻿<html xmlns:tp="http://schemas.datacontract.org/2004/07/Microsoft.VisualStudio.TestPlatform.Extensions.HtmlLogger.ObjectModel" xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+  <body>
+    <h1>Test run details</h1>
+    <div class="summary">
+      <div class="block"><span>Total tests</span><div class="total-tests">35</div><br></div>
+      <div class="block"><span>Passed  : </span><span class="passedTests">17</span><br><span>Failed  : </span><span class="failedTests">18</span><br><span>Skipped : </span><span class="skippedTests">0</span><br></div>
+      <div class="block"><span>Pass percentage</span><div class="pass-percentage">48 %</div><br></div>
+      <div class="block"><span>Run duration</span><div class="test-run-time">741ms</div><br></div><br></div>
+    <h2>Failed Results</h2><details open=""><summary>/Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/bin/Debug/net10.0/RecipeBook.Tests.dll</summary><div class="inner-row" Id="1516402444-failedResult">
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.GetDishById_ShouldReturnClientError_WhenDishDoesNotExist​</span><div class="duration"><span>30ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.GetDishById_ShouldReturnClientError_WhenDishDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 373
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.GetProductById_ShouldReturnClientError_WhenProductDoesNotExist​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.GetProductById_ShouldReturnClientError_WhenProductDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 170
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(name: "A", expectedStatusCode: BadRequest)​</span><div class="duration"><span>9ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(String name, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 79
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(name: "AB", expectedStatusCode: OK)​</span><div class="duration"><span>1ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(String name, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 79
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldReturnOk_WhenProductIsValid​</span><div class="duration"><span>4ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldReturnOk_WhenProductIsValid() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 55
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientProductDoesNotExist​</span><div class="duration"><span>17ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientProductDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 359
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreValid​</span><div class="duration"><span>6ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreValid() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 221
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.UpdateProduct_ShouldReturnClientError_WhenProductDoesNotExist​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.UpdateProduct_ShouldReturnClientError_WhenProductDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 191
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldReturnCreatedProduct​</span><div class="duration"><span>3ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldReturnCreatedProduct() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 126
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldReturnBadRequest_WhenProductIsUsedInDish​</span><div class="duration"><span>4ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldReturnBadRequest_WhenProductIsUsedInDish() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 430
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldSearchByNameSubstringIgnoringCase​</span><div class="duration"><span>3ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldSearchByNameSubstringIgnoringCase() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 149
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(portionSize: 0,01, expectedStatusCode: OK)​</span><div class="duration"><span>1ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(Double portionSize, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 271
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(portionSize: 0, expectedStatusCode: BadRequest)​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(Double portionSize, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 271
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldNotReturnServerError_WhenProductDoesNotExist​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldNotReturnServerError_WhenProductDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 205
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(proteins: 40, fats: 30, carbs: 30, expectedStatusCode: OK)​</span><div class="duration"><span>1ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(Double proteins, Double fats, Double carbs, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 105
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(proteins: 40, fats: 30, carbs: 30,010000000000002, expectedStatusCode: BadRequest)​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(Double proteins, Double fats, Double carbs, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 105
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.UpdateDish_ShouldReturnClientError_WhenDishDoesNotExist​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.UpdateDish_ShouldReturnClientError_WhenDishDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 387
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientsAreEmpty​</span><div class="duration"><span>4ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientsAreEmpty() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 326
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+      </div></details><h2>All Results</h2><details><summary>/Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/bin/Debug/net10.0/RecipeBook.Tests.dll</summary><div class="inner-row" Id="1516402444">
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldReturnExpectedValue_ForValidEquivalentClasses(productCalories: 250, amount: 100, expectedCalories: 250)​</span><div class="duration"><span>7ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldReturnExpectedValue_ForValidEquivalentClasses(productCalories: 100, amount: 100, expectedCalories: 100)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldReturnExpectedValue_ForValidEquivalentClasses(productCalories: 250, amount: 50, expectedCalories: 125)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldReturnExpectedValue_ForValidEquivalentClasses(productCalories: 100, amount: 0, expectedCalories: 0)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldReturnExpectedValue_ForValidEquivalentClasses(productCalories: 123,40000000000001, amount: 25, expectedCalories: 30,850000000000001)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldThrowArgumentOutOfRangeException_WhenIngredientAmountIsNegative​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldThrowArgumentOutOfRangeException_WhenProductCaloriesIsNegative​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldThrowArgumentNullException_WhenIngredientsIsNull​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldHandleBoundaryValuesAround100Grams(amount: 100, expectedCalories: 100)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldHandleBoundaryValuesAround100Grams(amount: 99,989999999999995, expectedCalories: 99,989999999999995)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldHandleBoundaryValuesAround100Grams(amount: 100,01000000000001, expectedCalories: 100,01000000000001)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldHandleBoundaryValuesAroundZeroCalories(productCalories: 0, amount: 100, expectedCalories: 0)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldHandleBoundaryValuesAroundZeroCalories(productCalories: 0,01, amount: 50, expectedCalories: 0)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldHandleBoundaryValuesAroundZeroCalories(productCalories: 0,01, amount: 100, expectedCalories: 0,01)​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldSumCaloriesFromAllIngredients​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldThrowException_WhenProductForIngredientIsMissing​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="pass">✔</span><span> RecipeBook.Tests.DishCaloriesCalculationTests.CalculateCaloriesPerPortion_ShouldThrowArgumentNullException_WhenProductsIsNull​</span><div class="duration"><span>&lt; 1ms</span><br></div>
+          </div>
+          <div class="error-info"></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.GetDishById_ShouldReturnClientError_WhenDishDoesNotExist​</span><div class="duration"><span>30ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.GetDishById_ShouldReturnClientError_WhenDishDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 373
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.GetProductById_ShouldReturnClientError_WhenProductDoesNotExist​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.GetProductById_ShouldReturnClientError_WhenProductDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 170
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(name: "A", expectedStatusCode: BadRequest)​</span><div class="duration"><span>9ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(String name, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 79
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(name: "AB", expectedStatusCode: OK)​</span><div class="duration"><span>1ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(String name, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 79
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldReturnOk_WhenProductIsValid​</span><div class="duration"><span>4ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldReturnOk_WhenProductIsValid() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 55
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientProductDoesNotExist​</span><div class="duration"><span>17ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientProductDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 359
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreValid​</span><div class="duration"><span>6ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreValid() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 221
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.UpdateProduct_ShouldReturnClientError_WhenProductDoesNotExist​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.UpdateProduct_ShouldReturnClientError_WhenProductDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 191
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldReturnCreatedProduct​</span><div class="duration"><span>3ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldReturnCreatedProduct() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 126
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldReturnBadRequest_WhenProductIsUsedInDish​</span><div class="duration"><span>4ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldReturnBadRequest_WhenProductIsUsedInDish() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 430
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldSearchByNameSubstringIgnoringCase​</span><div class="duration"><span>3ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldSearchByNameSubstringIgnoringCase() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 149
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(portionSize: 0,01, expectedStatusCode: OK)​</span><div class="duration"><span>1ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(Double portionSize, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 271
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(portionSize: 0, expectedStatusCode: BadRequest)​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(Double portionSize, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 271
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldNotReturnServerError_WhenProductDoesNotExist​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldNotReturnServerError_WhenProductDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 205
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(proteins: 40, fats: 30, carbs: 30, expectedStatusCode: OK)​</span><div class="duration"><span>1ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(Double proteins, Double fats, Double carbs, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 105
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(proteins: 40, fats: 30, carbs: 30,010000000000002, expectedStatusCode: BadRequest)​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(Double proteins, Double fats, Double carbs, HttpStatusCode expectedStatusCode) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 105
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.UpdateDish_ShouldReturnClientError_WhenDishDoesNotExist​</span><div class="duration"><span>2ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs) in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 510
+   at RecipeBook.Tests.ApiIntegrationTests.UpdateDish_ShouldReturnClientError_WhenDishDoesNotExist() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 387
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+        <div class="leaf-division">
+          <div><span class="fail">✘</span><span> RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientsAreEmpty​</span><div class="duration"><span>4ms</span><br></div>
+          </div>
+          <div class="error-info">
+    Error: <span class="error-message"><pre>System.Net.Http.HttpRequestException : Connection refused (localhost:5116)
+---- System.Net.Sockets.SocketException : Connection refused</pre></span><br>
+    Stack trace: <span class="error-stack-trace"><pre>   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientsAreEmpty() in /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs:line 326
+--- End of stack trace from previous location ---
+----- Inner Stack Trace -----
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</pre></span><br></div>
+        </div>
+      </div></details><div>
+      <h2>Informational messages</h2><span>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.1)</span><br><span>[xUnit.net 00:00:00.05]   Discovering: RecipeBook.Tests</span><br><span>[xUnit.net 00:00:00.09]   Discovered:  RecipeBook.Tests</span><br><span>[xUnit.net 00:00:00.11]   Starting:    RecipeBook.Tests</span><br><span>[xUnit.net 00:00:00.16]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.16]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.16]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.16]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.16]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(373,0): at RecipeBook.Tests.ApiIntegrationTests.GetDishById_ShouldReturnClientError_WhenDishDoesNotExist()</span><br><span>[xUnit.net 00:00:00.16]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.16]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.16]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.17]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.17]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.17]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.17]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(170,0): at RecipeBook.Tests.ApiIntegrationTests.GetProductById_ShouldReturnClientError_WhenProductDoesNotExist()</span><br><span>[xUnit.net 00:00:00.17]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.17]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.17]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.17]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.17]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.17]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.17]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(79,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(String name, HttpStatusCode expectedStatusCode)</span><br><span>[xUnit.net 00:00:00.17]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.17]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.18]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.18]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.18]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.18]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(79,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(String name, HttpStatusCode expectedStatusCode)</span><br><span>[xUnit.net 00:00:00.18]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.18]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.18]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.18]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.18]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.18]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(55,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldReturnOk_WhenProductIsValid()</span><br><span>[xUnit.net 00:00:00.18]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.18]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.18]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.20]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.20]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.20]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.20]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(359,0): at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientProductDoesNotExist()</span><br><span>[xUnit.net 00:00:00.20]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.20]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.20]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.21]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.21]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.21]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.21]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(510,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs)</span><br><span>[xUnit.net 00:00:00.21]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(221,0): at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreValid()</span><br><span>[xUnit.net 00:00:00.21]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.21]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.21]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.21]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.21]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.21]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(191,0): at RecipeBook.Tests.ApiIntegrationTests.UpdateProduct_ShouldReturnClientError_WhenProductDoesNotExist()</span><br><span>[xUnit.net 00:00:00.21]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.21]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.21]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.21]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.21]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.21]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(126,0): at RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldReturnCreatedProduct()</span><br><span>[xUnit.net 00:00:00.21]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.21]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.21]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.22]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.22]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.22]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.22]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(510,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs)</span><br><span>[xUnit.net 00:00:00.22]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(430,0): at RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldReturnBadRequest_WhenProductIsUsedInDish()</span><br><span>[xUnit.net 00:00:00.22]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.22]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.22]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.22]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.22]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.22]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(149,0): at RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldSearchByNameSubstringIgnoringCase()</span><br><span>[xUnit.net 00:00:00.22]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.22]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.22]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.23]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.23]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.23]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.23]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(510,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs)</span><br><span>[xUnit.net 00:00:00.23]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(271,0): at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(Double portionSize, HttpStatusCode expectedStatusCode)</span><br><span>[xUnit.net 00:00:00.23]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.23]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.23]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.23]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.23]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.23]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(510,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs)</span><br><span>[xUnit.net 00:00:00.23]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(271,0): at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(Double portionSize, HttpStatusCode expectedStatusCode)</span><br><span>[xUnit.net 00:00:00.23]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.23]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.23]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.23]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.23]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.23]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(205,0): at RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldNotReturnServerError_WhenProductDoesNotExist()</span><br><span>[xUnit.net 00:00:00.23]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.23]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.23]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.23]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.23]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.24]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.24]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(105,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(Double proteins, Double fats, Double carbs, HttpStatusCode expectedStatusCode)</span><br><span>[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.24]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.24]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.24]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.24]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.24]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(105,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(Double proteins, Double fats, Double carbs, HttpStatusCode expectedStatusCode)</span><br><span>[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.24]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.24]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.24]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.24]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.24]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(510,0): at RecipeBook.Tests.ApiIntegrationTests.CreateProductAndReturnIdAsync(String name, Double calories, Double proteins, Double fats, Double carbs)</span><br><span>[xUnit.net 00:00:00.24]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(387,0): at RecipeBook.Tests.ApiIntegrationTests.UpdateDish_ShouldReturnClientError_WhenDishDoesNotExist()</span><br><span>[xUnit.net 00:00:00.24]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.24]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.24]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]       System.Net.Http.HttpRequestException : Connection refused (localhost:5116)</span><br><span>[xUnit.net 00:00:00.25]       ---- System.Net.Sockets.SocketException : Connection refused</span><br><span>[xUnit.net 00:00:00.25]       Stack Trace:</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)</span><br><span>[xUnit.net 00:00:00.25]            at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.SocketsHttpHandler.&lt;SendAsync&gt;g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.HttpClient.&lt;SendAsync&gt;g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)</span><br><span>[xUnit.net 00:00:00.25]         /Users/a0000/Recipe_book_testing_project/RecipeBook.Tests/ApiIntegrationTests.cs(326,0): at RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientsAreEmpty()</span><br><span>[xUnit.net 00:00:00.25]         --- End of stack trace from previous location ---</span><br><span>[xUnit.net 00:00:00.25]         ----- Inner Stack Trace -----</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)</span><br><span>[xUnit.net 00:00:00.25]            at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)</span><br><span>[xUnit.net 00:00:00.25]   Finished:    RecipeBook.Tests</span><br></div>
+    <div>
+      <h2>Error and Warning messages</h2><span>[xUnit.net 00:00:00.16]     RecipeBook.Tests.ApiIntegrationTests.GetDishById_ShouldReturnClientError_WhenDishDoesNotExist [FAIL]</span><br><span>[xUnit.net 00:00:00.17]     RecipeBook.Tests.ApiIntegrationTests.GetProductById_ShouldReturnClientError_WhenProductDoesNotExist [FAIL]</span><br><span>[xUnit.net 00:00:00.17]     RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(name: "A", expectedStatusCode: BadRequest) [FAIL]</span><br><span>[xUnit.net 00:00:00.18]     RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidateNameLength_BoundaryValues(name: "AB", expectedStatusCode: OK) [FAIL]</span><br><span>[xUnit.net 00:00:00.18]     RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldReturnOk_WhenProductIsValid [FAIL]</span><br><span>[xUnit.net 00:00:00.20]     RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientProductDoesNotExist [FAIL]</span><br><span>[xUnit.net 00:00:00.21]     RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldAutomaticallyCalculateCalories_WhenIngredientsAreValid [FAIL]</span><br><span>[xUnit.net 00:00:00.21]     RecipeBook.Tests.ApiIntegrationTests.UpdateProduct_ShouldReturnClientError_WhenProductDoesNotExist [FAIL]</span><br><span>[xUnit.net 00:00:00.21]     RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldReturnCreatedProduct [FAIL]</span><br><span>[xUnit.net 00:00:00.22]     RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldReturnBadRequest_WhenProductIsUsedInDish [FAIL]</span><br><span>[xUnit.net 00:00:00.22]     RecipeBook.Tests.ApiIntegrationTests.GetProducts_ShouldSearchByNameSubstringIgnoringCase [FAIL]</span><br><span>[xUnit.net 00:00:00.23]     RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(portionSize: 0,01, expectedStatusCode: OK) [FAIL]</span><br><span>[xUnit.net 00:00:00.23]     RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldValidatePortionSize_BoundaryValues(portionSize: 0, expectedStatusCode: BadRequest) [FAIL]</span><br><span>[xUnit.net 00:00:00.23]     RecipeBook.Tests.ApiIntegrationTests.DeleteProduct_ShouldNotReturnServerError_WhenProductDoesNotExist [FAIL]</span><br><span>[xUnit.net 00:00:00.23]     RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(proteins: 40, fats: 30, carbs: 30, expectedStatusCode: OK) [FAIL]</span><br><span>[xUnit.net 00:00:00.24]     RecipeBook.Tests.ApiIntegrationTests.CreateProduct_ShouldValidatePfcSum_BoundaryValues(proteins: 40, fats: 30, carbs: 30,010000000000002, expectedStatusCode: BadRequest) [FAIL]</span><br><span>[xUnit.net 00:00:00.24]     RecipeBook.Tests.ApiIntegrationTests.UpdateDish_ShouldReturnClientError_WhenDishDoesNotExist [FAIL]</span><br><span>[xUnit.net 00:00:00.25]     RecipeBook.Tests.ApiIntegrationTests.CreateDish_ShouldReturnBadRequest_WhenIngredientsAreEmpty [FAIL]</span><br></div>
+  </body>
+  <style>
+        body { font-family: Calibri, Verdana, Arial, sans-serif; background-color: White; color: Black; }
+        h2 {
+        margin-top: 15px;
+        margin-bottom:10px;
+        }
+        pre {
+        white-space: pre-wrap;
+        }
+        .summary {font-family:monospace;
+        display: -webkit-flex; /* Safari */
+        -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+        display: flex;
+        flex-wrap: wrap;
+        }
+        .row {
+        border: 2px solid #ffffff;
+        width:100%;
+        cursor:pointer;
+        background-color:#d7e9fa;
+        }
+        .list-row {
+        border: 2px solid #ffffff;
+        width:100%;
+        cursor:pointer;
+        background-color:#ffffff;
+        }
+        .inner-row{
+        border: 2px solid #ffffff;
+        padding-left:1%;
+        margin-left:1%;
+        background-color:#ffffff;
+        }
+        .block{
+        width : 150px;
+        }
+        .leaf-division{
+        border: 2px solid #ffffff;
+        background-color:#e6eff7;
+        }
+        .pass { color: #0c0; }
+        .fail { color: #c00; }
+        .error-message { color : brown; }
+        .error-stack-trace { color: brown; }
+        .duration {float:right;padding-right:1%;}
+        .total-tests { font-size : 30px}
+        .test-run-time { font-size : 30px}
+        .pass-percentage { font-size : 30px}
+        .error-info{
+        margin-left:16px;
+        }
+      </style>
+</html>

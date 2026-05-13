@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RecipeBook.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c1eb8aa7480e1c77b71f9ac1569faa656606949b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6148b219995c82ebd352510ca54a9677bf8481e7")]
 [assembly: System.Reflection.AssemblyProductAttribute("RecipeBook.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RecipeBook.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
