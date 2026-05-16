@@ -1,26 +1,15 @@
 import { useEffect, useState } from "react";
 import { deleteDish, getDishes } from "../api/api";
 import { Link } from "react-router-dom";
+import {
+    dishCategoryOptions,
+    flagOptions,
+    getDishCategoryLabel,
+    getFlagsLabel
+} from "../utils/formatters";
 
-const categoryOptions = [
-    { value: "", label: "Все" },
-    { value: "Dessert", label: "Десерт" },
-    { value: "FirstCourse", label: "Первое" },
-    { value: "SecondCourse", label: "Второе" },
-    { value: "Drink", label: "Напиток" },
-    { value: "Salad", label: "Салат" },
-    { value: "Soup", label: "Суп" },
-    { value: "Snack", label: "Перекус" }
-];
-
-const flagOptions = [
-    { bit: 1, label: "Веган" },
-    { bit: 2, label: "Без глютена" },
-    { bit: 4, label: "Без сахара" }
-];
-
-function flagsToNumber(flags) {
-    return flags.reduce((acc, item) => acc + item, 0);
+function flagsToFilterNumber(flags) {
+    return flags.reduce((sum, bit) => sum + bit, 0);
 }
 
 export default function Dishes() {
@@ -39,9 +28,9 @@ export default function Dishes() {
                 category: filters.category || undefined
             };
 
-            const flagValue = flagsToNumber(filters.flags);
-            if (flagValue > 0) {
-                params.flags = flagValue;
+            const flags = flagsToFilterNumber(filters.flags);
+            if (flags > 0) {
+                params.flags = flags;
             }
 
             const data = await getDishes(params);
@@ -93,16 +82,17 @@ export default function Dishes() {
                     value={filters.category}
                     onChange={(e) => setFilters((prev) => ({ ...prev, category: e.target.value }))}
                 >
-                    {categoryOptions.map((x) => (
-                        <option key={x.value} value={x.value}>
-                            {x.label}
+                    <option value="">Все категории</option>
+                    {dishCategoryOptions.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
                         </option>
                     ))}
                 </select>
 
                 <div>
                     {flagOptions.map((flag) => (
-                        <label key={flag.bit} style={{ marginRight: "12px" }}>
+                        <label key={flag.value} style={{ marginRight: "12px" }}>
                             <input
                                 type="checkbox"
                                 checked={filters.flags.includes(flag.bit)}
@@ -124,24 +114,30 @@ export default function Dishes() {
                         <tr>
                             <th style={th}>Название</th>
                             <th style={th}>Категория</th>
+                            <th style={th}>Флаги</th>
                             <th style={th}>Порция</th>
                             <th style={th}>Ккал</th>
                             <th style={th}>Действия</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {dishes.map((x) => (
-                            <tr key={x.id}>
-                                <td style={td}>{x.name}</td>
-                                <td style={td}>{x.category}</td>
-                                <td style={td}>{x.portionSize}</td>
-                                <td style={td}>{x.calories}</td>
+                        {dishes.map((dish) => (
+                            <tr key={dish.id}>
+                                <td style={td}>{dish.name}</td>
+                                <td style={td}>{getDishCategoryLabel(dish.category)}</td>
+                                <td style={td}>{getFlagsLabel(dish.flags)}</td>
+                                <td style={td}>{dish.portionSize} г</td>
+                                <td style={td}>{dish.calories}</td>
                                 <td style={td}>
-                                    <Link to={`/dishes/${x.id}`}>Открыть</Link>
-                                    <Link to={`/dishes/edit/${x.id}`} style={{ marginLeft: "10px" }}>
+                                    <Link to={`/dishes/${dish.id}`}>Открыть</Link>
+                                    <Link to={`/dishes/edit/${dish.id}`} style={{ marginLeft: "10px" }}>
                                         Редактировать
                                     </Link>
-                                    <button type="button" onClick={() => handleDelete(x.id)} style={{ marginLeft: "10px" }}>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDelete(dish.id)}
+                                        style={{ marginLeft: "10px" }}
+                                    >
                                         Удалить
                                     </button>
                                 </td>

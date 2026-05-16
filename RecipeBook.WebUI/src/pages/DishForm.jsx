@@ -1,57 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { createDish, getDish, getProducts, updateDish, uploadFiles } from "../api/api";
 import { useNavigate, useParams } from "react-router-dom";
-
-const categoryOptions = [
-    { value: "Dessert", label: "Десерт" },
-    { value: "FirstCourse", label: "Первое" },
-    { value: "SecondCourse", label: "Второе" },
-    { value: "Drink", label: "Напиток" },
-    { value: "Salad", label: "Салат" },
-    { value: "Soup", label: "Суп" },
-    { value: "Snack", label: "Перекус" }
-];
-
-const flagOptions = [
-    { value: "Vegan", label: "Веган", bit: 1 },
-    { value: "GlutenFree", label: "Без глютена", bit: 2 },
-    { value: "SugarFree", label: "Без сахара", bit: 4 }
-];
-
-function flagsToArray(flags) {
-    if (typeof flags === "number") {
-        return flagOptions.filter((f) => (flags & f.bit) === f.bit).map((f) => f.value);
-    }
-
-    if (typeof flags === "string") {
-        if (!flags || flags === "None") {
-            return [];
-        }
-
-        return flags.split(",").map((x) => x.trim()).filter(Boolean);
-    }
-
-    return [];
-}
-
-function flagsToNumber(flagsArray) {
-    return flagOptions.reduce((acc, flag) => {
-        if (flagsArray.includes(flag.value)) {
-            return acc + flag.bit;
-        }
-
-        return acc;
-    }, 0);
-}
-
-function toNumber(value) {
-    if (value === "" || value === null || value === undefined) {
-        return 0;
-    }
-
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? 0 : parsed;
-}
+import {
+    dishCategoryOptions,
+    flagOptions,
+    flagsToArray,
+    flagsToNumber,
+    getFlagsLabel,
+    hasFlag,
+    toNumber
+} from "../utils/formatters";
 
 function getMacroCategory(name) {
     const words = (name || "").split(" ").filter(Boolean);
@@ -93,6 +51,8 @@ export default function DishForm() {
     const navigate = useNavigate();
 
     const [products, setProducts] = useState([]);
+    const [categoryWasChangedManually, setCategoryWasChangedManually] = useState(false);
+
     const [form, setForm] = useState({
         id: "",
         name: "",
@@ -148,6 +108,8 @@ export default function DishForm() {
                     fats: data.fats ?? "",
                     carbs: data.carbs ?? ""
                 });
+
+                setCategoryWasChangedManually(true);
             })
             .catch((err) => {
                 console.error(err);
@@ -155,21 +117,25 @@ export default function DishForm() {
             });
     }, [id]);
 
-    const draftNutrition = useMemo(() => {
+    const calculated = useMemo(() => {
         let calories = 0;
         let proteins = 0;
         let fats = 0;
         let carbs = 0;
 
-        let veganAllowed = true;
-        let glutenFreeAllowed = true;
-        let sugarFreeAllowed = true;
+        const filledIngredients = form.ingredients.filter(
+            (ingredient) => ingredient.productId && toNumber(ingredient.amount) > 0
+        );
 
-        for (const ingredient of form.ingredients) {
-            const product = products.find((p) => p.id === ingredient.productId);
+        let veganAllowed = filledIngredients.length > 0;
+        let glutenFreeAllowed = filledIngredients.length > 0;
+        let sugarFreeAllowed = filledIngredients.length > 0;
+
+        for (const ingredient of filledIngredients) {
+            const product = products.find((x) => x.id === ingredient.productId);
             const amount = toNumber(ingredient.amount);
 
-            if (!product || amount <= 0) {
+            if (!product) {
                 continue;
             }
 
@@ -178,17 +144,15 @@ export default function DishForm() {
             fats += (toNumber(product.fats) * amount) / 100;
             carbs += (toNumber(product.carbs) * amount) / 100;
 
-            const productFlagsNumber = typeof product.flags === "number" ? product.flags : 0;
-
-            if ((productFlagsNumber & 1) !== 1) {
+            if (!hasFlag(product.flags, "Vegan")) {
                 veganAllowed = false;
             }
 
-            if ((productFlagsNumber & 2) !== 2) {
+            if (!hasFlag(product.flags, "GlutenFree")) {
                 glutenFreeAllowed = false;
             }
 
-            if ((productFlagsNumber & 4) !== 4) {
+            if (!hasFlag(product.flags, "SugarFree")) {
                 sugarFreeAllowed = false;
             }
         }
@@ -209,16 +173,43 @@ export default function DishForm() {
     useEffect(() => {
         setForm((prev) => ({
             ...prev,
-            flags: prev.flags.filter((flag) => draftNutrition.allowedFlags[flag])
+            calories: String(calculated.calories),
+            proteins: String(calculated.proteins),
+            fats: String(calculated.fats),
+            carbs: String(calculated.carbs),
+            flags: prev.flags.filter((flag) => calculated.allowedFlags[flag])
         }));
     }, [
-        draftNutrition.allowedFlags.Vegan,
-        draftNutrition.allowedFlags.GlutenFree,
-        draftNutrition.allowedFlags.SugarFree
+        calculated.calories,
+        calculated.proteins,
+        calculated.fats,
+        calculated.carbs,
+        calculated.allowedFlags.Vegan,
+        calculated.allowedFlags.GlutenFree,
+        calculated.allowedFlags.SugarFree
     ]);
 
     const handleBaseChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === "name") {
+            const macroCategory = getMacroCategory(value);
+
+            setForm((prev) => ({
+                ...prev,
+                name: value,
+                category:
+                    !categoryWasChangedManually && macroCategory
+                        ? macroCategory
+                        : prev.category
+            }));
+
+            return;
+        }
+
+        if (name === "category") {
+            setCategoryWasChangedManually(true);
+        }
 
         setForm((prev) => ({
             ...prev,
@@ -230,7 +221,12 @@ export default function DishForm() {
         setForm((prev) => ({
             ...prev,
             ingredients: prev.ingredients.map((item, i) =>
-                i === index ? { ...item, [field]: value } : item
+                i === index
+                    ? {
+                          ...item,
+                          [field]: value
+                      }
+                    : item
             )
         }));
     };
@@ -253,11 +249,20 @@ export default function DishForm() {
     };
 
     const handleFilesChange = (e) => {
-        const files = Array.from(e.target.files || []).slice(0, 5);
-        setSelectedFiles(files);
+        const files = Array.from(e.target.files || []);
+        const availableSlots = Math.max(0, 5 - form.photos.length - selectedFiles.length);
+        const filesToAdd = files.slice(0, availableSlots);
+
+        setSelectedFiles((prev) => [...prev, ...filesToAdd]);
+
+        e.target.value = "";
     };
 
-    const removePhoto = (index) => {
+    const removeSelectedFile = (index) => {
+        setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const removeUploadedPhoto = (index) => {
         setForm((prev) => ({
             ...prev,
             photos: prev.photos.filter((_, i) => i !== index)
@@ -265,7 +270,7 @@ export default function DishForm() {
     };
 
     const handleFlagChange = (flagValue, checked) => {
-        if (!draftNutrition.allowedFlags[flagValue]) {
+        if (!calculated.allowedFlags[flagValue]) {
             return;
         }
 
@@ -274,16 +279,6 @@ export default function DishForm() {
             flags: checked
                 ? [...prev.flags, flagValue]
                 : prev.flags.filter((x) => x !== flagValue)
-        }));
-    };
-
-    const resetDraftValues = () => {
-        setForm((prev) => ({
-            ...prev,
-            calories: String(draftNutrition.calories),
-            proteins: String(draftNutrition.proteins),
-            fats: String(draftNutrition.fats),
-            carbs: String(draftNutrition.carbs)
         }));
     };
 
@@ -302,13 +297,11 @@ export default function DishForm() {
             const finalPhotos = [...form.photos, ...uploadedPhotoUrls].slice(0, 5);
 
             const cleanedIngredients = form.ingredients
-                .map((x) => ({
-                    productId: x.productId,
-                    amount: toNumber(x.amount)
+                .map((ingredient) => ({
+                    productId: ingredient.productId,
+                    amount: toNumber(ingredient.amount)
                 }))
-                .filter((x) => x.productId && x.amount > 0);
-
-            const macroCategory = getMacroCategory(form.name);
+                .filter((ingredient) => ingredient.productId && ingredient.amount > 0);
 
             const payload = {
                 id: form.id || undefined,
@@ -319,32 +312,28 @@ export default function DishForm() {
                 fats: toNumber(form.fats),
                 carbs: toNumber(form.carbs),
                 portionSize: toNumber(form.portionSize),
-                category: form.category || macroCategory || "Snack",
+                category: form.category,
                 flags: flagsToNumber(form.flags),
                 ingredients: cleanedIngredients
             };
 
             if (payload.name.length < 2) {
                 setError("Название блюда должно содержать минимум 2 символа.");
-                setIsSaving(false);
                 return;
             }
 
             if (payload.photos.length > 5) {
                 setError("Можно указать не более 5 фотографий.");
-                setIsSaving(false);
                 return;
             }
 
             if (payload.portionSize <= 0) {
                 setError("Размер порции должен быть больше 0.");
-                setIsSaving(false);
                 return;
             }
 
             if (payload.ingredients.length < 1) {
                 setError("Нужно добавить хотя бы один продукт в состав.");
-                setIsSaving(false);
                 return;
             }
 
@@ -355,7 +344,6 @@ export default function DishForm() {
 
             if (bjuPer100g > 100) {
                 setError("Сумма БЖУ на 100 грамм блюда не может превышать 100.");
-                setIsSaving(false);
                 return;
             }
 
@@ -384,27 +372,62 @@ export default function DishForm() {
                 <div style={field}>
                     <label>Название</label>
                     <br />
-                    <input name="name" value={form.name} onChange={handleBaseChange} required />
+                    <input
+                        name="name"
+                        value={form.name}
+                        onChange={handleBaseChange}
+                        placeholder="Например: !суп Борщ"
+                        required
+                    />
                 </div>
 
                 <div style={field}>
-                    <label>Фотографии (до 5 файлов)</label>
+                    <label>Фотографии блюда, максимум 5</label>
                     <br />
-                    <input type="file" accept="image/*" multiple onChange={handleFilesChange} />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFilesChange}
+                        disabled={form.photos.length + selectedFiles.length >= 5}
+                    />
+                    <div style={{ marginTop: "6px" }}>
+                        Выбрано и загружено: {form.photos.length + selectedFiles.length} / 5
+                    </div>
                 </div>
+
+                {selectedFiles.length > 0 && (
+                    <div style={field}>
+                        <strong>Выбранные файлы:</strong>
+                        <ul>
+                            {selectedFiles.map((file, index) => (
+                                <li key={`${file.name}-${index}`}>
+                                    {file.name}
+                                    <button
+                                        type="button"
+                                        onClick={() => removeSelectedFile(index)}
+                                        style={{ marginLeft: "8px" }}
+                                    >
+                                        Убрать
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
 
                 {form.photos.length > 0 && (
                     <div style={field}>
-                        <strong>Уже загруженные фото:</strong>
+                        <strong>Загруженные фото:</strong>
                         <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "8px" }}>
                             {form.photos.map((photo, index) => (
-                                <div key={index}>
+                                <div key={photo}>
                                     <img
                                         src={photo}
-                                        alt={`Фото ${index + 1}`}
+                                        alt={`Фото блюда ${index + 1}`}
                                         style={{ width: "120px", height: "120px", objectFit: "cover", display: "block" }}
                                     />
-                                    <button type="button" onClick={() => removePhoto(index)} style={{ marginTop: "6px" }}>
+                                    <button type="button" onClick={() => removeUploadedPhoto(index)} style={{ marginTop: "6px" }}>
                                         Удалить
                                     </button>
                                 </div>
@@ -431,29 +454,15 @@ export default function DishForm() {
                     <label>Категория</label>
                     <br />
                     <select name="category" value={form.category} onChange={handleBaseChange}>
-                        {categoryOptions.map((x) => (
-                            <option key={x.value} value={x.value}>
-                                {x.label}
+                        {dishCategoryOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
                             </option>
                         ))}
                     </select>
-                </div>
-
-                <div style={field}>
-                    <label>Флаги</label>
-                    {flagOptions.map((flag) => (
-                        <div key={flag.value}>
-                            <label style={{ opacity: draftNutrition.allowedFlags[flag.value] ? 1 : 0.5 }}>
-                                <input
-                                    type="checkbox"
-                                    checked={form.flags.includes(flag.value)}
-                                    disabled={!draftNutrition.allowedFlags[flag.value]}
-                                    onChange={(e) => handleFlagChange(flag.value, e.target.checked)}
-                                />
-                                {flag.label}
-                            </label>
-                        </div>
-                    ))}
+                    <div style={{ marginTop: "6px", color: "#666" }}>
+                        Если категория выбрана вручную, она имеет приоритет над макросом в названии.
+                    </div>
                 </div>
 
                 <div style={field}>
@@ -499,36 +508,52 @@ export default function DishForm() {
                 </div>
 
                 <div style={field}>
-                    <strong>Черновые автоматически рассчитанные КБЖУ</strong>
-                    <div>Калории: {draftNutrition.calories}</div>
-                    <div>Белки: {draftNutrition.proteins}</div>
-                    <div>Жиры: {draftNutrition.fats}</div>
-                    <div>Углеводы: {draftNutrition.carbs}</div>
-                    <button type="button" onClick={resetDraftValues} style={{ marginTop: "8px" }}>
-                        Подставить черновые значения
-                    </button>
+                    <label>Доступные флаги блюда</label>
+
+                    {flagOptions.map((flag) => (
+                        <div key={flag.value}>
+                            <label style={{ opacity: calculated.allowedFlags[flag.value] ? 1 : 0.5 }}>
+                                <input
+                                    type="checkbox"
+                                    checked={form.flags.includes(flag.value)}
+                                    disabled={!calculated.allowedFlags[flag.value]}
+                                    onChange={(e) => handleFlagChange(flag.value, e.target.checked)}
+                                />
+                                {flag.label}
+                                {!calculated.allowedFlags[flag.value] && " — недоступно по составу"}
+                            </label>
+                        </div>
+                    ))}
+
+                    <div style={{ marginTop: "6px" }}>
+                        Текущие флаги: {getFlagsLabel(flagsToNumber(form.flags))}
+                    </div>
                 </div>
 
                 <div style={field}>
-                    <label>Калории (можно скорректировать вручную)</label>
+                    <strong>КБЖУ рассчитывается автоматически при изменении состава</strong>
+                </div>
+
+                <div style={field}>
+                    <label>Калорийность, ккал / порция</label>
                     <br />
                     <input type="number" step="0.01" min="0" name="calories" value={form.calories} onChange={handleBaseChange} required />
                 </div>
 
                 <div style={field}>
-                    <label>Белки (можно скорректировать вручную)</label>
+                    <label>Белки, г / порция</label>
                     <br />
                     <input type="number" step="0.01" min="0" name="proteins" value={form.proteins} onChange={handleBaseChange} required />
                 </div>
 
                 <div style={field}>
-                    <label>Жиры (можно скорректировать вручную)</label>
+                    <label>Жиры, г / порция</label>
                     <br />
                     <input type="number" step="0.01" min="0" name="fats" value={form.fats} onChange={handleBaseChange} required />
                 </div>
 
                 <div style={field}>
-                    <label>Углеводы (можно скорректировать вручную)</label>
+                    <label>Углеводы, г / порция</label>
                     <br />
                     <input type="number" step="0.01" min="0" name="carbs" value={form.carbs} onChange={handleBaseChange} required />
                 </div>
